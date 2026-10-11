@@ -54,4 +54,5 @@
 #include "world.dm"
 #include "lodewars_source.dmm"
 #include "default.dms"
+#include "code\character\saving.dm"
 // END_INCLUDE
