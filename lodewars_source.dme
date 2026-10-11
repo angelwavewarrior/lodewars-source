@@ -54,5 +54,10 @@
 #include "world.dm"
 #include "lodewars_source.dmm"
 #include "default.dms"
+#include "code\tick_handling.dm"
+#include "code\character\input_handling.dm"
+#include "code\character\movement_handling.dm"
+#include "code\character\movement_old.dm"
 #include "code\character\saving.dm"
+#include "interface\interface.dmf"
 // END_INCLUDE

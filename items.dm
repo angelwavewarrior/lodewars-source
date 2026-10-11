@@ -135,12 +135,11 @@
 /obj/item/useable/nonexpendable/portable_decontamination_unit/Use(mob/player/target as mob)
 	set name = "use"
 	set src in usr
-	var/mob/player/M
-	var/healAmt
-	M = usr
+	var/mob/player/M = usr
+	var/healAmt = rand(1, 20) * M.intelligence
 	target = GetMob(target)
 	if(istype(target, /mob/player) && target.team == M.team && ..(target))
-		target.radiation -= rand(1, 20) * M.intelligence
+		target.radiation -= healAmt
 		target.radiation = max(0, target.radiation)
 		target.HUDBar("radiation")
 		if(target != M)
@@ -344,7 +343,6 @@
 	T = GetTurf(A)
 	if(istype(T, /turf/dirt) && ..(A))
 		var/obj/item/useable/explosive/micro_charge/C = new(GetTurf(A))
-		var/M = usr
 		C.user = usr
 		C.Plant()
 		Discard()
@@ -378,10 +376,8 @@
 	set src in usr
 	var/T
 	var/range
-	var/M
 	T = GetTurf(src)
 	range = ((A:x - T:x) ** 2 + (A:y - T:y) ** 2) ** 0.5
-	M = usr
 	if(..(A))
 		var/obj/bullet/rocket/grenade/G = new(GetTurf(src))
 		G.GetHeading(range, GetTurf(src), GetTurf(A))
