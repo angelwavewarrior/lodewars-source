@@ -208,7 +208,7 @@
 			if(client.address in banIP) banIP.Remove(client.address)
 			admins << "Allowed previously banned key \"[client.key]\" in from [client.address]."
 	else if(!client.address || client.address == "127.0.0.1" || client.address == world.address)
-		if(!host && client.CheckPassport("14c8f0e811e1591e") || host == key)
+		if(!host || host == key)
 			admins.Add(src)
 			verbs.Add(typesof(/mob/admin/verb))
 			verbs.Add(typesof(/mob/host/verb))
