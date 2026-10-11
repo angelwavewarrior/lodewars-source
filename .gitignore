@@ -1,0 +1,11 @@
+# build output
+*.dmb
+*.rsc
+*.int
+*.lk
+
+# the game's runtime files, kept by whoever hosts it
+saves/
+admin.txt
+banned.txt
+filter.txt

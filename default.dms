@@ -1,0 +1,39 @@
+macro
+	- return "inventory forward"
+	= return "inventory backward"
+	add return "show/hide-scores"
+	subtract return "condense/expand-hud"
+
+	A return "mode attack"
+	G return "mode get"
+	D return "mode default"
+
+	multiply return "show/hide-stat-panels"
+
+	one
+		set name = "1"
+		return "item 1"
+	two
+		set name = "2"
+		return "item 2"
+	three
+		set name = "3"
+		return "item 3"
+	four
+		set name = "4"
+		return "item 4"
+	five
+		set name = "5"
+		return "item 5"
+	six
+		set name = "6"
+		return "item 6"
+	seven
+		set name = "7"
+		return "item 7"
+	eight
+		set name = "8"
+		return "item 8"
+	zero
+		set name = "0"
+		return "item 0"
