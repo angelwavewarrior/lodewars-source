@@ -20,5 +20,9 @@
 		if(keys_pressed["South"] || keys_pressed["S"]) movement_step |= SOUTH
 		if(keys_pressed["East"] || keys_pressed["D"]) movement_step |= EAST
 		if(keys_pressed["West"] || keys_pressed["A"]) movement_step |= WEST
+		if(keys_pressed["Northwest"]) movement_step |= NORTHWEST
+		if(keys_pressed["Northeast"]) movement_step |= NORTHEAST
+		if(keys_pressed["Southeast"]) movement_step |= SOUTHEAST
+		if(keys_pressed["Southwest"]) movement_step |= SOUTHWEST
 		if(movement_step && act_delay < world.time)
 			HandleMovement(movement_step)
