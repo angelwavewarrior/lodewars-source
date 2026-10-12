@@ -20,7 +20,8 @@
 	if(istype(A,/mob/player) && density)
 		if(!A.density) return 1
 		var/mob/player/player = A
-		if(player.mode != "attack" && Bridged())
+		var/turf/T = player.loc
+		if(player.mode != "attack" && isturf(T) && (T.Bridged() || istype(player, /mob/player/bolo)))
 			player.Dig(src)
 			return 0
-	return 1
+	return ..()
