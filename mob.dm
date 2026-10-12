@@ -189,9 +189,9 @@ var/list/playTeams = list()
 		HUDBar(H)
 	Move(teamSpawns[team.name])
 	loc = teamSpawns[team.name]
-	if(head)
+	/*if(head)
 		head.loc = teamSpawns[team.name]
-		UpdateChildren()
+		UpdateChildren()*/
 	animate_movement = 1
 	icon_state = "run"
 	spawn(10) Regen()
@@ -259,24 +259,7 @@ var/list/playTeams = list()
 	HUDTime()
 	HUDInventory()
 
-/mob/player/proc/Dig(turf/T as turf)
-	var/delay
-	var/A
-	delay = (32 - digging + T.solidness) / size
-	A = HeadForMob(src)
-	icon_state = "dig"
-	if(digging != CalcStat("digging"))
-		delay = T.solidness + 30
-	if(act_delay <= world.time)
-		act_delay = world.time + delay
-	else
-		act_delay += delay
-	sleep(delay * size - 1)
-	icon_state = "run"
-	if(A && A != src) A:icon_state = "run"
-	if(src && T && get_dist(src, T) == 1)
-		experience += digging + 10
-		T.Dug()
+
 
 /mob/player/proc/SortInv()
 	var/list/eqList
@@ -384,7 +367,7 @@ var/list/playTeams = list()
 	set desc = "Saves current stats. Normally not necessary due to automatic saves, but it's a good idea to save before switching servers."
 	if(map && map.saved)
 		if(save_time < world.time)
-			if(SaveCharacter(1))
+			if(SaveCharacter())
 				usr << "Saved."
 			save_time = world.time + 500
 	else
@@ -460,88 +443,7 @@ var/list/playTeams = list()
 		else
 			. = 1
 
-/mob/player/Entered(obj/item/O as obj)
-	if(istype(O, /obj/item))
-		var/tempInv = inventory.Copy()
-		var/I = locate(O.type) in tempInv
-		while(O.stackable && I && I:quantity + O.quantity >= 100)
-			tempInv:Remove(I)
-			I = locate(O.type) in tempInv
-		if(!O.owner) O.owner = src
-		if(!O.team) O.team = src
-		if(O.stackable && I)
-			encumberance += O.CalcWeight()
-			radioactivity += O.radioactivity * O.quantity
-			I:quantity += O.quantity
-			I:UpdateQuantity()
-			O.loc = null
-			del(O)
-		else
-			encumberance += O.CalcWeight()
-			radioactivity += O.radioactivity * O.quantity
-			inventory.Add(O)
-			O.DisplayWeight()
-			O.layer = 14.5
-			if(O.ammo)
-				O.UpdateQuantity()
-			HUDInventory()
-		HUDUpdate("carry")
 
-/mob/player/Exited(obj/item/O as obj)
-	if(istype(O, /obj/item))
-		var/E = O
-		if(istype(E, /obj/item/equippable) && E:equipped)
-			E:DoUnequip(src)
-		encumberance -= O.weight * O.quantity
-		radioactivity -= O.radioactivity * O.quantity
-		inventory.Remove(O)
-		O.layer = OBJ_LAYER
-		if(client)
-			if(O in client.screen)
-				client.screen.Remove(O)
-			SortInv()
-			HUDInventory()
-		if(activeItem == O)
-			activeItem = null
-		O.overlays.Cut()
-		HUDUpdate("carry")
-
-/mob/player/Move()
-	var/waterLogged
-	var/water
-	waterLogged = 0
-	water = 0
-	if(shopping)
-		shopping = 0
-		DeShop()
-	if(act_delay < world.time)
-		. = ..()
-		if(.)
-			var/moveSpeed = speed
-			var/T = loc
-			if(istype(loc, /turf/water) && !vehicle && !T:Bridged())
-				if(istype(src, /mob/player/bolo))
-					moveSpeed -= 3
-				else
-					moveSpeed += swim
-					water = 1
-					if(swim < 0)
-						waterLogged = 2
-			if(speed != CalcStat("speed"))
-				moveSpeed = 0
-			speed_accum = speed_accum + (sqrt(moveSpeed) - round(sqrt(moveSpeed)))
-			act_delay = world.time + 8 - round(sqrt(moveSpeed)) + waterLogged
-			if(speed_accum >= 1)
-				speed_accum--
-				act_delay--
-			if(vehicle)
-				icon_state = "still"
-			else if(water && density)
-				if(icon_state != "swim") spawn(4) icon_state = "swim"
-			else if(icon_state != "run")
-				spawn(2) icon_state = "run"
-		else
-			return 0
 
 /mob/player/Login()
 	players.Add(src)
@@ -644,26 +546,7 @@ var/list/playTeams = list()
 		if(oldHUDMode && statpanel("Inventory"))
 			stat(inventory)
 
-/mob/Bump(O as mob|obj|turf|area)
-	var/turf/T
-	T = loc
-	src = GetMob(src)
-	if(istype(src, /mob/player))
-		var/P = src
-		if(mode != "attack" && istype(O, /turf/dirt) && (T.Bridged() || istype(src, /mob/player/bolo)))
-			P:Dig(O)
-		else
-			var/atom/M
-			if(mode != "get" && istype(O, /obj/item/vehicle))
-				var/V = O
-				M = V:driver
-				if(M && M.team != team)
-					P:Attack(V)
-			if(mode != "get" && istype(O, /mob))
-				M = GetMob(O)
-				if(M.team != team)
-					P:Attack(M)
-		. = ..()
+
 
 /mob/Stat()
 	if(client && client.show_verb_panel)

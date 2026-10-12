@@ -8,7 +8,7 @@
 				if(("torso" in M.equipment) && istype(M.equipment["torso"], /obj/item/equippable/armor/blast_jacket))
 					A.TakeDamage(power * max(0.5, 1 - distance / max(range, 1)) * 0.4, 0.6, 0.8, attacker, source)
 				else
-					if(istype(A, /mob/subBolo) || istype(A, /mob/player/bolo))
+					if(istype(A, /mob/player/bolo))
 						power = round(power * 1.75)
 					A.TakeDamage(power * max(0.5, 1 - distance / max(range, 1)), 0.6, 0.8, attacker, source)
 			else
@@ -228,14 +228,14 @@
 			usr.dir = B:dir
 			B:heading += rand(min(0, M.aim * 1.5 + accuracy * 30 + -55), max(0, 55 - M.aim * 1.5 - accuracy * 30))
 			if(water)
-				flick("swimfire", HeadForMob(M))
+				flick("swimfire", M)
 			else
 				if(auto)
-					var/O = HeadForMob(M)
+					var/O = M
 					O:icon_state = attackAnim
 					spawn(4) if(O) O:icon_state = "run"
 				else
-					flick(attackAnim, HeadForMob(M))
+					flick(attackAnim, M)
 			B:Fly()
 			if(ammoType)
 				ammo--

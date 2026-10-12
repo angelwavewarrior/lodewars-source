@@ -373,16 +373,7 @@
 		del(A)
 	overlays.Cut()
 
-/turf/proc/Dug()
-	var/turf/U
-	if(!density) return
-	flick("crumble", src)
-	density = 0
-	opacity = 0
-	Update()
-	for(var/D in list(1, 2, 4, 8))
-		U = get_step(src, D)
-		U.Update()
+
 
 /turf/proc/OrePing(mob/M as mob)
 	var/I
