@@ -37,12 +37,13 @@
 			if(/mob/player/bolo) race = "bolo"
 		if(!race) return
 		var/savefile/player_save = new("saves/player/[save_ckey].sav")
-		player_save["[race]/rank"] >> rank
-		player_save["[race]/experience"] >> experience
-		player_save["[race]/cash"] >> cash
-		player_save["[race]/bank"] >> bank
-		player_save["[race]/debt"] >> debt
-		loaded = TRUE
+		if(race in player_save.dir)
+			player_save["[race]/rank"] >> rank
+			player_save["[race]/experience"] >> experience
+			player_save["[race]/cash"] >> cash
+			player_save["[race]/bank"] >> bank
+			player_save["[race]/debt"] >> debt
+			loaded = TRUE
 
 	if(loaded)
 		if(debt && bank >= debt)
