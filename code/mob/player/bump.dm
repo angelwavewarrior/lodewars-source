@@ -12,6 +12,7 @@
 				if(M && M.team != team)
 					P:Attack(V)
 			if(mode != "get" && istype(O, /mob))
+				M = GetMob(O)
 				if(M.team != team)
 					P:Attack(M)
 		. = ..()
