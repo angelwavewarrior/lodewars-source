@@ -45,6 +45,12 @@
 			player_save["[race]/debt"] >> debt
 			loaded = TRUE
 
+	if(rank > 30)
+		rank = 0
+		cash = 0
+		bank = 0
+		debt = 0
+		experience = 0
 	if(loaded)
 		if(debt && bank >= debt)
 			bank -= debt
@@ -68,12 +74,6 @@
 		if(!cash)
 			cash = 1000
 			rank = 0
-	if(rank > 30)
-		rank = 0
-		cash = 0
-		bank = 0
-		debt = 0
-		experience = 0
 
 /*/mob/player/proc/LoadCharacter()
 	var/race
