@@ -1,0 +1,27 @@
+/obj/timer
+	icon = 'statnum.dmi'
+	layer = 15
+	var/time = 40
+	var/start = 40
+	screen_loc = "12:16,12:17"
+
+/obj/timer/proc/TickTock()
+	overlays.Cut()
+	time--
+	icon_state = num2text(time % 10)
+	if(time >= 10)
+		var/obj/hud/H = new()
+		H.icon = icon
+		H.icon_state = num2text(round(time / 10))
+		H.pixel_x = -8
+		H.layer = 15
+		overlays.Add(H)
+		del(H)
+	if(time > 0)
+		spawn(600) TickTock()
+		if(time == 5)
+			players << "<b>Only five minutes remaining!</b>"
+		else if(time == 1)
+			players << "<b>One minute left--hurry back to your base to cash in your ore!</b>"
+	else
+		EndMap()
