@@ -211,7 +211,6 @@ var/list/weaponsCatalog = typesof(/obj/item/equippable/weapon) - /obj/item/equip
 					A.radioactivity--
 				A.radioactivity = max(0, A.radioactivity)
 				for(var/mob/player/M in A)
-					M = IsHead(M)
 					if(M)
 						M.radiation = round(M.radiation * 0.75) - 15
 						M.radiation = max(0, M.radiation)

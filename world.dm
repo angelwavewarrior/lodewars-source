@@ -19,7 +19,7 @@
 	if(istype(M, /mob) && M.master)
 		. = M.master
 
-/proc/IsHead(mob/M as mob)
+/*/proc/IsHead(mob/M as mob)
 	. = null
 	if(istype(M, /mob) && M.master && M.master.head == M)
 		. = M.master
@@ -30,7 +30,7 @@
 	if(ismob(M) && M.head)
 		. = M.head
 	else
-		. = M
+		. = M*/
 
 /proc/Him(mob/M as mob)
 	if(M.client.gender == "female")
@@ -177,16 +177,16 @@
 
 /atom/Click()
 	var/mob/player/M
-	var/T
+	var/turf/T
 	M = usr
 	T = GetTurf(src)
 	if(loc)
 		if(istype(M, /mob/player))
-			var/obj/item/O = locate() in T:contents
-			var/mob/P = locate() in T:contents
+			var/obj/item/O = locate() in T
+			var/mob/P = locate() in T
 			if(O && O.planted)
-				O = locate() in T:contents - O
-			if(O && M.mode == "get" && GetMultiDist(usr, src) <= 1)
+				O = locate() in T.contents - O
+			if(O && M.mode == "get" && M.CanGet(O))
 				O.get()
 			else if(P && M.mode == "attack" && P != M && !(P in M.children) && get_dist(P, M) <= 1)
 				P:attack()

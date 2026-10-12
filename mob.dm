@@ -189,9 +189,9 @@ var/list/playTeams = list()
 		HUDBar(H)
 	Move(teamSpawns[team.name])
 	loc = teamSpawns[team.name]
-	if(head)
+	/*if(head)
 		head.loc = teamSpawns[team.name]
-		UpdateChildren()
+		UpdateChildren()*/
 	animate_movement = 1
 	icon_state = "run"
 	spawn(10) Regen()
@@ -259,24 +259,7 @@ var/list/playTeams = list()
 	HUDTime()
 	HUDInventory()
 
-/mob/player/proc/Dig(turf/T as turf)
-	var/delay
-	var/A
-	delay = (32 - digging + T.solidness) / size
-	A = HeadForMob(src)
-	icon_state = "dig"
-	if(digging != CalcStat("digging"))
-		delay = T.solidness + 30
-	if(act_delay <= world.time)
-		act_delay = world.time + delay
-	else
-		act_delay += delay
-	sleep(delay * size - 1)
-	icon_state = "run"
-	if(A && A != src) A:icon_state = "run"
-	if(src && T && get_dist(src, T) == 1)
-		experience += digging + 10
-		T.Dug()
+
 
 /mob/player/proc/SortInv()
 	var/list/eqList
@@ -382,11 +365,8 @@ var/list/playTeams = list()
 
 /mob/player/verb/save()
 	set desc = "Saves current stats. Normally not necessary due to automatic saves, but it's a good idea to save before switching servers."
-	usr << "SC1"
 	if(map && map.saved)
-		usr << "SC2"
 		if(save_time < world.time)
-			usr << "SC3"
 			if(SaveCharacter())
 				usr << "Saved."
 			save_time = world.time + 500
@@ -566,26 +546,7 @@ var/list/playTeams = list()
 		if(oldHUDMode && statpanel("Inventory"))
 			stat(inventory)
 
-/mob/Bump(O as mob|obj|turf|area)
-	var/turf/T
-	T = loc
-	src = GetMob(src)
-	if(istype(src, /mob/player))
-		var/P = src
-		if(mode != "attack" && istype(O, /turf/dirt) && (T.Bridged() || istype(src, /mob/player/bolo)))
-			P:Dig(O)
-		else
-			var/atom/M
-			if(mode != "get" && istype(O, /obj/item/vehicle))
-				var/V = O
-				M = V:driver
-				if(M && M.team != team)
-					P:Attack(V)
-			if(mode != "get" && istype(O, /mob))
-				M = GetMob(O)
-				if(M.team != team)
-					P:Attack(M)
-		. = ..()
+
 
 /mob/Stat()
 	if(client && client.show_verb_panel)

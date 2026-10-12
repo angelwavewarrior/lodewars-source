@@ -327,7 +327,6 @@ var/list/condensedCoords = list("strength" = "61,344", "attack" = "61,325", "spe
 	var/mob/player/M
 	M = usr
 	if(istype(M, /mob/player) && M.client)
-		M << "SC"
 		M.save()
 
 /obj/hud/button/get/Click()

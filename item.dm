@@ -300,6 +300,7 @@
 				reach = 0
 			if(istype(loc, /turf/water) && !T.Bridged() && M.icon_state != "swim")
 				reach = 0
+		if((src.loc in M.locs)) reach = 1
 		if(reach && !planted || container)
 			if(istype(src, /obj/item/ammo))
 				var/A = src

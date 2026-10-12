@@ -1,7 +1,6 @@
 /obj/item/equippable/weapon/riot_cannon/Fire(A as mob|obj|turf|area, spin=0)
 	var/M
 	var/mob/player/P
-	M = HeadForMob(usr)
 	P = usr
 	if(P.act_delay <= world.time || M:icon_state == attackAnim || spin)
 		if(spin > 2)
