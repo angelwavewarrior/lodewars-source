@@ -49,7 +49,6 @@
 #include "code\items\vehicles\flathauler.dm"
 #include "code\items\vehicles\raft.dm"
 #include "code\items\vehicles\vehicle.dm"
-#include "code\lib\rc5.dm"
 #include "code\map\base.dm"
 #include "code\map\map.dm"
 #include "code\map\team.dm"
