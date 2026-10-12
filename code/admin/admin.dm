@@ -278,7 +278,8 @@
 			nextMap.teams.Add(T)
 		admins << "[name] sets the next game to have [newTeams.len] teams."
 	else if(newTeams.len == 0)
-		del(nextMap.teams)
+		if(nextMap)
+			del(nextMap.teams)
 		admins << "[name] sets the next game to have randomized teams."
 	else
 		src << "Cancelled team selection (not enough teams entered)."
@@ -292,7 +293,7 @@
 			nextMap = new/map()
 		nextMap.cash = n
 		nextMap.saved = 0
-	else
+	else if(nextMap)
 		nextMap.cash = 0
 		if(!nextMap.rank)
 			nextMap.saved = 1
@@ -306,7 +307,7 @@
 			nextMap = new/map()
 		nextMap.rank = n
 		nextMap.saved = 0
-	else
+	else if(nextMap)
 		nextMap.rank = 0
 		if(!nextMap.cash)
 			nextMap.saved = 1
