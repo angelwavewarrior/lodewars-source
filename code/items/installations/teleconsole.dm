@@ -54,6 +54,7 @@
 			for(P in view(1, src))
 				for(var/atom/movable/A in P.loc)
 					if(A == P) continue
+					if(!ismob(A) && !istype(A, /obj/item)) continue
 					if(ismob(A))
 						drain = 10
 					else
