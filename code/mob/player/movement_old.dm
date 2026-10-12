@@ -19,7 +19,8 @@ mob/glide_size = 16
 			I:quantity += O.quantity
 			I:UpdateQuantity()
 			O.loc = null
-			del(O)
+			// Deferred: deleting O now would end the Move or get proc still running on it.
+			spawn() del(O)
 		else
 			encumberance += O.CalcWeight()
 			radioactivity += O.radioactivity * O.quantity

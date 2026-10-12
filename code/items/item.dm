@@ -28,6 +28,7 @@
 	if(container)
 		container.carried.Remove(src)
 		container = null
+	. = ..()
 
 /obj/item/verb/get()
 	set src in oview(1)
