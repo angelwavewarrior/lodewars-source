@@ -43,8 +43,7 @@
 	set src in view(1)
 	if(istype(usr, /mob/player) && O && istype(O, /obj/item/ore))
 		if(usr.team == team)
-			O = O.drop()
-			if(!O)
+			if(O.loc != usr)
 				usr << "Pick the ore up first."
 				return
 			O.Move(src)
@@ -57,26 +56,31 @@
 		if(contents.len)
 			var/obj/item/ore/O
 			for(O in src)
-				totalGrade[O.oreName] += O.grade
+				totalGrade[O.oreName] += O.grade * O.quantity
 				O.loc = null
 				del(O)
 			var/oreType
+			var/amount
 			for(var/G in totalGrade)
 				while(totalGrade[G] > 0)
 					if(totalGrade[G] >= 3)
 						oreType = "/obj/item/ore/[G]/rich"
 						O = new oreType(usr.loc)
 						O.value *= 3
-						totalGrade[G] -= 3
+						amount = min(round(totalGrade[G] / 3), 99)
+						totalGrade[G] -= amount * 3
 					else if(totalGrade[G] == 2)
 						oreType = "/obj/item/ore/[G]/medium"
 						O = new oreType(usr.loc)
 						O.value *= 2
+						amount = 1
 						totalGrade[G] -= 2
 					else
 						oreType = "/obj/item/ore/[G]/poor"
 						O = new oreType(usr.loc)
+						amount = 1
 						totalGrade[G] = 0
+					O.quantity = amount
 					O.icon_state = O.name
 					O.name = "[O.name] [O.oreName] ore"
 					O.invisibility = 0
