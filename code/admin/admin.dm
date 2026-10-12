@@ -293,10 +293,14 @@
 			nextMap = new/map()
 		nextMap.cash = n
 		nextMap.saved = 0
+		admins << "[name] sets players to start the next game with $[n]. The next game is not saved."
 	else if(nextMap)
 		nextMap.cash = null
 		if(isnull(nextMap.rank))
 			nextMap.saved = 1
+			admins << "[name] removes the next game's starting cash. The next game is saved again."
+		else
+			admins << "[name] removes the next game's starting cash."
 
 /mob/admin/verb/map_rank(n as num|null)
 	set desc = "Sets the rank players are assigned for the next round. This option means that characters are neither saved nor loaded for the next round, but instead start with predetermined rank and money. Leave it blank to remove the setting."
@@ -307,10 +311,14 @@
 			nextMap = new/map()
 		nextMap.rank = n
 		nextMap.saved = 0
+		admins << "[name] sets players to be rank [n] in the next game. The next game is not saved."
 	else if(nextMap)
 		nextMap.rank = null
 		if(isnull(nextMap.cash))
 			nextMap.saved = 1
+			admins << "[name] removes the next game's starting rank. The next game is saved again."
+		else
+			admins << "[name] removes the next game's starting rank."
 
 /mob/admin/verb/clear_map_settings()
 	set desc = "Restores all map settings to the default, randomized setting."
