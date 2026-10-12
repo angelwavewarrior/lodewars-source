@@ -342,6 +342,7 @@
 			. = 1
 
 /mob/player/Login()
+	save_ckey = ckey
 	players.Add(src)
 	if(map)
 		if(map.saved)

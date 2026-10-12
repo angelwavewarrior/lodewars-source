@@ -1,5 +1,10 @@
+// Logout clears key before its delayed save runs, so the save keeps the ckey from Login.
+/mob/player/var/tmp/save_ckey
+
 /mob/player/proc/SaveCharacter()
 	if(map && !map.saved)
+		return
+	if(!save_ckey)
 		return
 	if(rank && experience != "unsaved")
 		var/race
@@ -10,7 +15,7 @@
 			if(/mob/player/horzek) race = "horzek"
 			if(/mob/player/bolo) race = "bolo"
 			if(/mob/player/mobbel) race = "mobbel"
-		var/savefile/F = new("saves/player/[src.ckey].sav")
+		var/savefile/F = new("saves/player/[save_ckey].sav")
 		F["[race]/rank"] << rank
 		F["[race]/experience"] << experience
 		F["[race]/cash"] << cash
@@ -21,7 +26,7 @@
 /mob/player/proc/LoadCharacter()
 	if(map && !map.saved) return
 	var/loaded = FALSE
-	if(fexists("saves/player/[src.ckey].sav"))
+	if(save_ckey && fexists("saves/player/[save_ckey].sav"))
 		var/race = null
 		switch(type)
 			if(/mob/player/zentan) race = "zentan"
@@ -31,7 +36,7 @@
 			if(/mob/player/mobbel) race = "mobbel"
 			if(/mob/player/bolo) race = "bolo"
 		if(!race) return
-		var/savefile/player_save = new("saves/player/[src.ckey].sav")
+		var/savefile/player_save = new("saves/player/[save_ckey].sav")
 		player_save["[race]/rank"] >> rank
 		player_save["[race]/experience"] >> experience
 		player_save["[race]/cash"] >> cash
