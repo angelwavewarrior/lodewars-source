@@ -273,7 +273,7 @@
 /mob/player/proc/HUDInventory()
 	if(!client) return
 	SortInv()
-	if(shopping)
+	if(shopping && shopList)
 		HUDShop(shopList)
 	else
 		var/obj/item/O
