@@ -84,14 +84,18 @@
 /obj/bullet/proc/GetHeading(range, start as mob|obj|turf|area, stop as mob|obj|turf|area)
 	var/dirs
 	dirs = list(4, 5, 1, 9, 8, 10, 2, 6, 4, 5, 1)
-	heading = arccos(abs(stop:x - start:x) / range)
-	if(stop:x < start:x)
-		if(stop:y < start:y)
-			heading += 180
-		else
-			heading = 180 - heading
-	else if(stop:y < start:y)
-		heading = 360 - heading
+	if(!range)
+		// Target on the shooter's own tile: go the way the shooter faces.
+		heading = (max(dirs:Find(usr.dir), 1) - 1) * 45
+	else
+		heading = arccos(abs(stop:x - start:x) / range)
+		if(stop:x < start:x)
+			if(stop:y < start:y)
+				heading += 180
+			else
+				heading = 180 - heading
+		else if(stop:y < start:y)
+			heading = 360 - heading
 	dir = dirs[round((heading + 22.5) / 45) + 1]
 	masterDir = dir
 	usr.dir = dir
