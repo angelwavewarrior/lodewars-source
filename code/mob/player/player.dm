@@ -351,8 +351,8 @@
 				if("[name]/[race]" in money)
 					cash = money["[name]/[race]"]
 		else
-			if(map.cash) cash = map.cash
-			if(map.rank) rank = map.rank
+			if(!isnull(map.cash)) cash = map.cash
+			if(!isnull(map.rank)) rank = map.rank
 			if(rank)
 				var/V
 				for(var/i = 1, i <= rank, i++)

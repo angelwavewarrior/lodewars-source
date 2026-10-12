@@ -91,8 +91,8 @@
 					if(/team/purple) usr << "   Purple"
 					if(/team/white) usr << "   White"
 					if(/team/black) usr << "   Black"
-		if(nextMap.cash || nextMap.rank)
-			usr << "Players will be rank [nextMap.rank] and start with $[nextMap.cash]."
+		if(!nextMap.saved)
+			usr << "Not saved. Players will be rank [isnull(nextMap.rank) ? 0 : nextMap.rank] and start with [isnull(nextMap.cash) ? "the usual cash" : "$[nextMap.cash]"]."
 
 /mob/host/verb/admin_privelages(mob/M as mob in players)
 	set desc = "Bestows or removes admin commands (barring certain host-only commands) from a player."
@@ -284,32 +284,32 @@
 	else
 		src << "Cancelled team selection (not enough teams entered)."
 
-/mob/admin/verb/map_cash(n as num)
-	set desc = "Sets the base amount of cash players start with for the next round. This option means that characters are neither saved nor loaded for the next round, but instead start with predetermined rank and money."
+/mob/admin/verb/map_cash(n as num|null)
+	set desc = "Sets the base amount of cash players start with for the next round. This option means that characters are neither saved nor loaded for the next round, but instead start with predetermined rank and money. Leave it blank to remove the setting."
 	set category = "Map"
-	if(n)
-		n = max(100, min(99999, n))
+	if(!isnull(n))
+		n = max(0, min(99999, n))
 		if(!nextMap)
 			nextMap = new/map()
 		nextMap.cash = n
 		nextMap.saved = 0
 	else if(nextMap)
-		nextMap.cash = 0
-		if(!nextMap.rank)
+		nextMap.cash = null
+		if(isnull(nextMap.rank))
 			nextMap.saved = 1
 
-/mob/admin/verb/map_rank(n as num)
-	set desc = "Sets the rank players are assigned for the next round. This option means that characters are neither saved nor loaded for the next round, but instead start with predetermined rank and money."
+/mob/admin/verb/map_rank(n as num|null)
+	set desc = "Sets the rank players are assigned for the next round. This option means that characters are neither saved nor loaded for the next round, but instead start with predetermined rank and money. Leave it blank to remove the setting."
 	set category = "Map"
-	if(n)
+	if(!isnull(n))
 		n = max(0, min(30, n))
 		if(!nextMap)
 			nextMap = new/map()
 		nextMap.rank = n
 		nextMap.saved = 0
 	else if(nextMap)
-		nextMap.rank = 0
-		if(!nextMap.cash)
+		nextMap.rank = null
+		if(isnull(nextMap.cash))
 			nextMap.saved = 1
 
 /mob/admin/verb/clear_map_settings()

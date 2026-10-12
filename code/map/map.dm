@@ -7,8 +7,8 @@
 	var/waterContent = "random"
 	var/size = "random"
 	var/list/teams
-	var/cash = 0
-	var/rank = 0
+	var/cash
+	var/rank
 	var/saved = 1
 
 /vein
