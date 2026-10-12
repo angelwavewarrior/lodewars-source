@@ -248,10 +248,9 @@
 			M.act_delay = world.time + attackDelay
 
 /obj/item/equippable/weapon/riot_cannon/Fire(A as mob|obj|turf|area, spin=0)
-	var/M
 	var/mob/player/P
 	P = usr
-	if(P.act_delay <= world.time || M:icon_state == attackAnim || spin)
+	if(P.act_delay <= world.time || P.icon_state == attackAnim || spin)
 		if(spin > 2)
 			if(world.cpu < 60)
 				. = ..(A, spin)
