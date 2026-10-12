@@ -44,6 +44,9 @@
 	if(istype(usr, /mob/player) && O && istype(O, /obj/item/ore))
 		if(usr.team == team)
 			O = O.drop()
+			if(!O)
+				usr << "Pick the ore up first."
+				return
 			O.Move(src)
 
 /obj/item/useable/installation/microrefinery/proc/activate()
