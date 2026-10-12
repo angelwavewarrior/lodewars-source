@@ -249,6 +249,8 @@
 			map.timer = new/obj/timer()
 			map.timer.time = nextMap.timer.time
 			map.timer.start = map.timer.time
+		// Map settings cover one round.
+		nextMap = null
 	map.timer.TickTock()
 	switch(map.size)
 		if("tiny") map.max = 94
