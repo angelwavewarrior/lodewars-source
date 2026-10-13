@@ -346,6 +346,8 @@
 						P.experience = max(0, P.experience)
 				else
 					P << "You score [payout] points for your work."
+	// Before the teams go: Refunds compares the holder's team with the buyer's.
+	Refunds()
 	for(var/team/T in teams)
 		del(T.comm)
 		for(var/S in T.selects)
@@ -357,7 +359,6 @@
 	if(map.saved)
 		save = 1
 	del(map)
-	Refunds()
 	for(var/mob/player/P in players)
 		if(P.recovered)
 			P << "$[P.recovered] worth of equipment returned safely."
