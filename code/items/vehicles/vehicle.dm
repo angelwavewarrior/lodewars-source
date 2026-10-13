@@ -207,7 +207,10 @@
 	return 1
 
 /obj/item/vehicle/proc/Drive(T as turf, Dir)
-	if(CanDrive(T, Dir) && drive_time <= world.time + 1)
+	// Too early: another drive loop is already running. Let that one carry on.
+	if(drive_time > world.time + 1)
+		return
+	if(CanDrive(T, Dir))
 		Move(T, Dir)
 		if(speed)
 			drive_time = world.time + baseDelay - abs(speed) * speedIncrement
