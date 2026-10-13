@@ -19,6 +19,12 @@
 	if(istype(M, /mob) && M.master)
 		. = M.master
 
+// A planted installation of that type on T. locate() can return an unplanted one lying there.
+/proc/LocatePlanted(T, type)
+	for(var/obj/item/I in T)
+		if(istype(I, type) && I.planted)
+			return I
+
 /*/proc/IsHead(mob/M as mob)
 	. = null
 	if(istype(M, /mob) && M.master && M.master.head == M)

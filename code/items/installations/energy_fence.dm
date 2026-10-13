@@ -81,7 +81,7 @@
 		B.team = team
 		if(T != loc)
 			B.overlays.Add(image('barrier.dmi', null, team.name, 6, turn(Dir, 180)))
-		E = locate() in T
+		E = LocatePlanted(T, /obj/item/useable/installation/energy_fence)
 		if(T == Target || E && E != src)
 			E.dirs.Add(turn(Dir, 180))
 			finished = 1
@@ -110,7 +110,7 @@
 				B = locate() in T:contents - Beams
 			else
 				B = locate() in T
-		E = locate() in T
+		E = LocatePlanted(T, /obj/item/useable/installation/energy_fence)
 		if(E && (T == Target || E != src))
 			E.dirs.Remove(turn(Dir, 180))
 			finished = 1
@@ -142,7 +142,7 @@
 					beam = 0
 				else if(B.dir == D || B.dir == turn(D, 180))
 					if(!(D in dirs)) beam = 0
-			E = locate() in T
+			E = LocatePlanted(T, /obj/item/useable/installation/energy_fence)
 			if(E && E.planted)
 				if(E.team == team)
 					beam = 1

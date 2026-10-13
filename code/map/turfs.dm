@@ -29,8 +29,8 @@
 
 /turf/proc/Bridged()
 	var/obj/item/useable/installation/bridge/O
-	O = locate() in src
-	if(!istype(src, /turf/water) || O && O.planted)
+	O = LocatePlanted(src, /obj/item/useable/installation/bridge)
+	if(!istype(src, /turf/water) || O)
 		. = 1
 	else
 		. = 0

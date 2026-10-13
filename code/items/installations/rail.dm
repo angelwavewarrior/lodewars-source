@@ -37,7 +37,7 @@
 	var/T
 	for(var/D in list(1, 2, 4, 8))
 		T = get_step(loc, D)
-		R = locate() in T
+		R = LocatePlanted(T, /obj/item/useable/installation/rail)
 		if(R)
 			if(!R.dirs)
 				R.dir = turn(D, 180)
