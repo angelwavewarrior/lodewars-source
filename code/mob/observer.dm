@@ -15,7 +15,7 @@
 		client.eye = M.client.eye
 		client.perspective = M.client.perspective
 		loc = null
-		observers.Add(src)
+		observers |= src
 
 /mob/observer/New(Loc, LogIn=0)
 	loggedIn = LogIn
