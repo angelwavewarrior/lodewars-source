@@ -55,8 +55,9 @@
 		if(debt && bank >= debt)
 			bank -= debt
 			debt = 0
-		if(cash < 99999 && bank)
-			var/debit = 99999 - cash
+		if(cash < 99999 && bank > 0)
+			// Top cash up from the bank, but no more than the bank holds.
+			var/debit = min(bank, 99999 - cash)
 			bank -= debit
 			cash += debit
 		else if(cash > 99999)
