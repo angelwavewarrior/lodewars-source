@@ -261,6 +261,10 @@
 					return
 		else if(alert("This vehicle will be delivered to the loading area outside your base. Is this OK?", "Confirm purchase", "Yes", "No") == "No")
 			return
+		// Again: cash may have gone while the alert was open.
+		if(value > M.cash)
+			M << "You can't afford that!"
+			return
 		if(M.shopping)
 			M.shoppingCart.Add(Copy())
 			M.bill += value
