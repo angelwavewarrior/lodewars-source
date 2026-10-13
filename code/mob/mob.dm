@@ -102,7 +102,6 @@
 					else if(filter[F] == "boot")
 						players << "[src] was booted for swearing."
 						del(client)
-						Logout()
 						return
 					else if(filter[F] == "block")
 						chat = "*CENSORED*"
