@@ -398,8 +398,11 @@
 		tel.Cut()
 		del(tel)
 	teleports.Cut()
-	for(var/X = 6, X <= map.max + 6, X++)
-		for(var/Y = 6, Y <= map.max + 6, Y++)
+	// A larger previous map left turfs and objects past this one's edge.
+	var/edge = min(max(map.max, clearedMax) + 6, world.maxx, world.maxy)
+	clearedMax = map.max
+	for(var/X = 6, X <= edge, X++)
+		for(var/Y = 6, Y <= edge, Y++)
 			T = locate(X, Y, 2)
 			for(var/atom/movable/A in T.contents)
 				A.loc = null
@@ -411,8 +414,8 @@
 					new/turf/water(T)
 				else
 					new/turf/dirt(T)
-	for(var/X = 6, X <= map.max + 6, X++)
-		for(var/Y = 6, Y <= map.max + 6, Y++)
+	for(var/X = 6, X <= edge, X++)
+		for(var/Y = 6, Y <= edge, Y++)
 			T = locate(X, Y, 2)
 			T.Initialize()
 			T.Update()
