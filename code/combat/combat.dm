@@ -240,9 +240,9 @@
 		else
 			physDefense = 2 ** (1 - 10 / physDefense)
 		forceDefense = 2 ** (energy_defense / 4)
-	if(energy && energy_defense && forceDefense > 1)
+	if(energy > 0 && energy_defense && forceDefense > 1)
 		Amount /= forceDefense
-		energy -= round(Amount * forceDefense - Amount) / 5
+		energy = max(0, energy - round(Amount * forceDefense - Amount) / 5)
 		if(ismob(src))
 			M.HUDBar("energy")
 	dmg = Amount * Piercing
