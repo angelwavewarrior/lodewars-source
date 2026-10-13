@@ -40,4 +40,5 @@
 		else
 			speed = 0
 	else
-		if(speed == maxSpeed) speed--
+		// A junction: stop, so the driver's next turn starts the cart.
+		speed = 0
