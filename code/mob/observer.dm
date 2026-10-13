@@ -44,19 +44,19 @@
 		del(src)
 
 /mob/observer/Login()
-	if(!(client.key in adminList) && client.address && client.address != world.address && ((client.key in banKeys) || (client.address in banIP)))
-		if(!(client.key in unbanned) && !(client.address in unbanned))
+	if(!(client.ckey in adminList) && client.address && client.address != world.address && ((client.ckey in banKeys) || (client.address in banIP)))
+		if(!(client.ckey in unbanned) && !(client.address in unbanned))
 			src << "<b><tt><font color=red>You have been <u>banned</u> from this Lode Wars server.</font></tt></b><br>There are many Lode Wars subscribers who host servers on a regular basis, and this one in particular has made it clear that they do not wish your presence on their server. Please respect their wishes and find another server to play on."
 			if(!(client.address in banIP))
 				banIP.Add(client.address)
 				admins << "Blocked banned key \"[client.key]\" from [client.address]."
-			else if(!(client.key in banKeys))
-				banKeys.Add(client.key)
+			else if(!(client.ckey in banKeys))
+				banKeys.Add(client.ckey)
 				admins << "Blocked banned IP [client.address] using key \"[client.key]\"."
 			del(client)
 			del(src)
 		else
-			if(client.key in banKeys) banKeys.Remove(client.key)
+			if(client.ckey in banKeys) banKeys.Remove(client.ckey)
 			if(client.address in banIP) banIP.Remove(client.address)
 			admins << "Allowed previously banned key \"[client.key]\" in from [client.address]."
 	else if(!client.address || client.address == "127.0.0.1" || client.address == world.address)
@@ -72,7 +72,7 @@
 			world << "<b><tt><font color=red>ERROR: nonsubscribed host. Shutting down...</font></tt></b>"
 			sleep(1)
 			del(world)
-	else if(key in adminList)
+	else if(ckey in adminList)
 		admins.Add(src)
 		verbs.Add(typesof(/mob/admin/verb))
 	else if(playerLimit && players.len >= playerLimit)

@@ -390,7 +390,7 @@
 		admins.Add(src)
 		verbs.Add(typesof(/mob/admin/verb))
 		verbs.Add(typesof(/mob/host/verb))
-	else if(key in adminList)
+	else if(ckey in adminList)
 		admins.Add(src)
 		verbs.Add(typesof(/mob/admin/verb))
 	client.mouse_pointer_icon = null

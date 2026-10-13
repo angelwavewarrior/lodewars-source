@@ -32,8 +32,11 @@
 		// A last line with no newline after it would be skipped.
 		if(copytext(T, length(T)) != "\n")
 			T += "\n"
+		var/K
 		while(findtext(T, "\n", start))
-			adminList.Add(copytext(T, start, findtext(T, "\n", start)))
+			K = ckey(copytext(T, start, findtext(T, "\n", start)))
+			if(K)
+				adminList.Add(K)
 			start = findtext(T, "\n", start) + 1
 
 /proc/SaveAdmins()
@@ -53,8 +56,11 @@
 		// A last line with no newline after it would be skipped.
 		if(copytext(T, length(T)) != "\n")
 			T += "\n"
+		var/K
 		while(findtext(T, "\n", start))
-			banKeys.Add(copytext(T, start, findtext(T, "\n", start)))
+			K = ckey(copytext(T, start, findtext(T, "\n", start)))
+			if(K)
+				banKeys.Add(K)
 			start = findtext(T, "\n", start) + 1
 
 /proc/SaveBanned()
@@ -110,12 +116,12 @@
 		if(M.client && !(!M.client.address || M.client.address == world.address || M.client.address == "127.0.0.1"))
 			admins.Remove(M)
 			M.verbs.Remove(typesof(/mob/admin/verb))
-			adminList.Remove(M.key)
+			adminList.Remove(M.ckey)
 			players << "[M.name]'s admin privelages have been revoked."
 	else
 		admins.Add(M)
 		M.verbs.Add(typesof(/mob/admin/verb))
-		adminList.Add(M.key)
+		adminList.Add(M.ckey)
 		players << "[M.name] has been made an admin by [usr.name]."
 	SaveAdmins()
 
@@ -148,22 +154,22 @@
 	B = M
 	if(M == "Ban key")
 		M = input("Ban what key?") as text
-	// A typed key is text, so the host, who is not in adminList, needs its own check.
-	if((M in admins) || (M in adminList) || (istext(M) && ckey(M) == ckey(host)))
+	// A typed key is matched as a ckey. The host is not in adminList.
+	if((M in admins) || (istext(M) && ((ckey(M) in adminList) || ckey(M) == ckey(host))))
 		return
 	players << "[M] has been banned by [name]."
 	if(ismob(M))
 		B = GetMob(M)
-		banKeys.Add(B.key)
+		banKeys.Add(B.ckey)
 		if(B.client)
 			addy = B.client.address
 			banIP.Add(B.client.address)
 			del(B.client)
 		del(B)
 	else
-		banKeys.Add(M)
+		banKeys.Add(ckey(M))
 		for(var/mob/P in players)
-			if(P.key == M)
+			if(P.ckey == ckey(M))
 				if(P.client)
 					addy = P.client.address
 					banIP.Add(P.client.address)
