@@ -139,7 +139,8 @@
 	B = M
 	if(M == "Ban key")
 		M = input("Ban what key?") as text
-	if((M in admins) || (M in adminList))
+	// A typed key is text, so the host, who is not in adminList, needs its own check.
+	if((M in admins) || (M in adminList) || (istext(M) && ckey(M) == ckey(host)))
 		return
 	players << "[M] has been banned by [name]."
 	if(ismob(M))
