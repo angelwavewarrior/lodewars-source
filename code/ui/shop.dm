@@ -129,24 +129,28 @@
 			O = O.drop()
 			if(O)
 				O.loc = null
+				// Ammo value is per pack of amt rounds.
+				var/V = O.value
+				if(istype(O, /obj/item/ammo))
+					V = O.value * O.quantity / O:amt
 				var/B = locate(O.buyer)
 				if(B && B == M)
-					M:cash += round(O.value * 0.8)
-					M << "You sell \the [O.name] for $[round(O.value * 0.8)]."
+					M:cash += round(V * 0.8)
+					M << "You sell \the [O.name] for $[round(V * 0.8)]."
 					M:HUDUpdate("cash", 5)
 				else if(!B)
-					M:cash += round(O.value * 0.4)
-					M << "You sell \the [O.name] for $[round(O.value * 0.4)]."
+					M:cash += round(V * 0.4)
+					M << "You sell \the [O.name] for $[round(V * 0.4)]."
 					M:HUDUpdate("cash", 5)
 				else if(B:team == M:team)
-					B:cash += round(O.value * 0.8)
+					B:cash += round(V * 0.8)
 					M << "You return your teammate [B:name]'s [O.name]."
-					B << "[M:name] returns your [O.name] to the shop for $[round(O.value * 0.8)]."
+					B << "[M:name] returns your [O.name] to the shop for $[round(V * 0.8)]."
 					B:HUDUpdate("cash", 5)
 				else
-					M:cash += round(O.value * 0.4)
-					M << "You sell \the [O.name] for $[round(O.value * 0.4)]."
-					B:insurance += round(O.value * 0.4)
+					M:cash += round(V * 0.4)
+					M << "You sell \the [O.name] for $[round(V * 0.4)]."
+					B:insurance += round(V * 0.4)
 					M:HUDUpdate("cash", 5)
 				M:client:screen:Remove(O)
 				if(O in M:inventory)

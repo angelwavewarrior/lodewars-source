@@ -215,6 +215,7 @@
 	O.icon = icon
 	O.icon_state = icon_state
 	O.invisibility = invisibility
+	O.buyer = buyer
 
 /obj/item/proc/Plant()
 	planted = 1
