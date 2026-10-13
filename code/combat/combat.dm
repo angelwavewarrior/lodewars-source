@@ -117,8 +117,9 @@
 	if(..())
 		if(health / max_health < 0.5)
 			for(var/obj/item/ore/O in src)
-				for(var/i = 1, i <= O.quantity, i++)
-					if(rand(0, 100) > (health / max_health) ** 0.5)
+				var/n = O.quantity
+				for(var/i = 1, i <= n, i++)
+					if(rand(0, 100) > (health / max_health) ** 0.5 * 100)
 						O.Scatter(src, 1)
 
 /mob/player/Die(mob/player/attacker as mob, source, lethality)
