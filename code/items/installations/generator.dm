@@ -29,7 +29,8 @@
 	verbs.Add(/obj/item/useable/installation/generator/proc/withdraw)
 	overlays.Add(icon('team_badge.dmi', team.name))
 	energy = 5
-	spawn(50) Power()
+	var/loop = ++tick_loop
+	spawn(50) Power(loop)
 	. = ..()
 
 /obj/item/useable/installation/generator/Unplant()
@@ -41,11 +42,11 @@
 /obj/item/useable/installation/generator/UsedBy()
 	withdraw()
 
-/obj/item/useable/installation/generator/proc/Power()
-	if(!planted) return
+/obj/item/useable/installation/generator/proc/Power(loop)
+	if(!planted || loop != tick_loop) return
 	flick("power", src)
 	energy = min(max_energy, energy + rand(2, 4))
-	spawn(50) Power()
+	spawn(50) Power(loop)
 
 /obj/item/useable/installation/generator/proc/withdraw()
 	set src in view(1)

@@ -14,7 +14,8 @@
 /obj/item/useable/installation/rad_scrubber/Plant()
 	icon = 'installed.dmi'
 	overlays.Add(icon('team_badge.dmi', team.name))
-	spawn(10) Clean()
+	var/loop = ++tick_loop
+	spawn(10) Clean(loop)
 	. = ..()
 
 /obj/item/useable/installation/rad_scrubber/Unplant()
@@ -30,8 +31,8 @@
 		M << "Rad scrubber destroyed!"
 		Die()
 
-/obj/item/useable/installation/rad_scrubber/proc/Clean()
-	if(planted)
+/obj/item/useable/installation/rad_scrubber/proc/Clean(loop)
+	if(planted && loop == tick_loop)
 		for(var/atom/A in block(locate(x - 5, y - 5, z), locate(x + 5, y + 5, z)))
 			if(isturf(A))
 				if(A.radioactivity > 10)
@@ -49,4 +50,4 @@
 				for(var/obj/O in A)
 					if(O.radioactivity > 1 && !rand(0, 5))
 						O.radioactivity--
-		spawn(35) Clean()
+		spawn(35) Clean(loop)

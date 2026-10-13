@@ -5,6 +5,8 @@
 	var/difficulty = 10
 	var/dismantleable = 0
 	var/aquatic = 0
+	// Numbers each timer loop; replanting starts a new one and the old one stops.
+	var/tmp/tick_loop = 0
 	useAnim = "action"
 
 /obj/item/useable/installation/Plant()

@@ -24,7 +24,8 @@
 	verbs.Add(/obj/item/useable/installation/med_station/proc/heal)
 	overlays.Add(icon('team_badge.dmi', team.name))
 	supplies = 5
-	spawn(50) Synth()
+	var/loop = ++tick_loop
+	spawn(50) Synth(loop)
 	. = ..()
 
 /obj/item/useable/installation/med_station/Unplant()
@@ -36,10 +37,10 @@
 /obj/item/useable/installation/med_station/UsedBy()
 	heal()
 
-/obj/item/useable/installation/med_station/proc/Synth()
-	if(!planted) return
+/obj/item/useable/installation/med_station/proc/Synth(loop)
+	if(!planted || loop != tick_loop) return
 	supplies = min(50, supplies + rand(3, 5))
-	spawn(50) Synth()
+	spawn(50) Synth(loop)
 
 /obj/item/useable/installation/med_station/proc/heal()
 	set src in view(1)
