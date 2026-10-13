@@ -83,7 +83,7 @@
 		else
 			if(KO)
 				src << "Your reciever crackles with the angry voice of your mining foreman <i>\"Watch it, pal! Just be happy you didn't rough him up too bad, or else you could consider yerself fired. Got it?\"</i>"
-				experience -= 500 - rank * 50 + teamKills * 500
+				experience -= max(0, 500 - rank * 50 + teamKills * 500)
 				teamKills++
 			else
 				src << "Your reciever crackles with the angry voice of your mining foreman <i>\"YOU MORON! You complete and utter waste of oxygen, what the *#@! do ya think you're doin', huh? If you're gonna whack someone, howsabout takin' out the <b>other</b> guys?\"</i>"
@@ -91,7 +91,7 @@
 					experience -= 300
 					teamKills += 0.4
 				else
-					experience -= 500 - rank * 50 + teamKills * 500
+					experience -= max(0, 500 - rank * 50 + teamKills * 500)
 					teamKills++
 	else
 		if(get_dist(M, team.bin) <= 16)
@@ -107,10 +107,10 @@
 			else
 				if(team.expBonus == "kill")
 					src << "Your reciever crackles with the voice of the mining foreman. <i>\"'ey, not bad work dere, but youse might wanna try bein' a bit more careful. People might start askin' questions.\"</i>"
-					experience -= 100 - kills * 50
+					experience -= max(0, 100 - kills * 50)
 				else
 					src << "Your reciever crackles with the angry voice of the mining foreman. <i>\"You klutz! Do you have any idea how much of a mess you're leaving down there? Roughing up a few of the udder guys is one thing, but lay off the killing, 'k?\"</i>"
-					experience -= 200 - kills * 100
+					experience -= max(0, 200 - kills * 100)
 				kills++
 
 /mob/player/TakeDamage()
@@ -178,7 +178,7 @@
 					else players << "[name] commits suicide!"
 			else
 				players << "[name] dies!"
-		experience -= rank * 10 + 100 - deaths * 100
+		experience -= max(0, rank * 10 + 100 - deaths * 100)
 		deaths++
 	if(activeItem)
 		if(istype(activeItem, /obj/item/useable))
