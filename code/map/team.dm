@@ -134,6 +134,8 @@
 				teamType = pick(availTeams)
 			teams.Add(new teamType())
 			availTeams.Remove(teamType)
+			// A team picked normally must not come up again as a holiday pick.
+			easterEggs.Remove(teamType)
 	else
 		for(var/i = 1, i <= map.teams.len, i++)
 			teamType = map.teams[i]
