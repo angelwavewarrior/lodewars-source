@@ -187,7 +187,7 @@
 	powerDrain = 2
 	delay = 7
 	attackAnim = "rifle"
-	accuracy = 88
+	accuracy = 0.88
 
 /obj/item/equippable/weapon/proc/Fire(T as turf, spin)
 	var/mob/player/M
