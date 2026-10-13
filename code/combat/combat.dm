@@ -45,7 +45,7 @@
 			water = 1
 		if(water && !istype(GetTurf(M), /turf/water) || !water && istype(GetTurf(M), /turf/water))
 			return
-		if(locate("held") in equipment)
+		if("held" in equipment)
 			var/E = equipment["held"]
 			if("attack" in E:adds)
 				lethal = 0.45
