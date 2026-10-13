@@ -129,6 +129,7 @@
 	set desc = "Sets the MOTD (Message Of The Day--a message seen by all players as they log in. Editing MOTD.txt has the same effect.)"
 	set category = "Admin"
 	MOTD = M
+	SaveMOTD()
 
 /mob/admin/verb/ban(M in players + "Ban key")
 	set desc = "Bans a user from the game."
