@@ -40,7 +40,8 @@
 	if(istype(target, /mob/player) && ..())
 		var/healAmt = rand(30, M.intelligence + rand(1, M.intelligence) + 30)
 		target.health = min(target.health + healAmt, target.max_health)
-		target.radiation = max(0, target.radiation - 50 + rand(1, M.intelligence * 2.5))
+		// The bonus adds to the 50. Without the brackets intelligence took away from it.
+		target.radiation = max(0, target.radiation - (50 + rand(1, M.intelligence * 2.5)))
 		target.regen = 20
 		target.HUDBar("health")
 		if(target != M)
