@@ -251,9 +251,15 @@
 		M.bill -= value
 		M.cash += value
 		M.HUDUpdate("cash", 5)
-		if(!locate(type) in M.shoppingCart - src)
-			var/S = locate(type) in M.team.totalShopList
-			M.client.images.Remove(S:highlight)
+		// Every entry is an /obj/shop; match the item it sells.
+		var/more = 0
+		for(var/obj/shop/C in M.shoppingCart)
+			if(C.itemType == itemType) more = 1
+		if(!more)
+			for(var/obj/shop/S in M.team.totalShopList)
+				if(S.itemType == itemType)
+					while(S.highlight in M.client.images)
+						M.client.images.Remove(S.highlight)
 		del(src)
 	else
 		if(value > M.cash)
