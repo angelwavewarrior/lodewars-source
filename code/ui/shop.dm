@@ -115,8 +115,13 @@
 	oldShop = M.shopping
 	if(istype(M, /mob/player))
 		M.shopping = 1
+		// A full stack at most. Past the cash, each click only repeats "You can't afford that!",
+		// and a huge amount would hold the server in this loop.
+		amt = min(round(amt), 99)
 		for(var/i = 1, i <= amt, i++)
 			S:Click()
+			if(S:value > M.cash)
+				break
 		if(!oldShop)
 			M.DeShop()
 
@@ -224,8 +229,12 @@
 
 /obj/shop/proc/buy(Amt=1 as num)
 	set src in usr.client.screen
+	var/mob/player/M = usr
+	Amt = min(round(Amt), 99)
 	for(var/i = 1, i <= Amt, i++)
 		Click()
+		if(value > M.cash)
+			break
 
 /obj/shop/proc/return_purchase()
 	set name = "return"
