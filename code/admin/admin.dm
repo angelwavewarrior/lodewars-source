@@ -252,6 +252,7 @@
 		if("high") nextMap.bgRadiation = 4
 		if("very high") nextMap.bgRadiation = 8
 		if("dangerously high") nextMap.bgRadiation = 16
+		if("random") nextMap.bgRadiation = 0
 	admins << "[name] sets the next game to have [N] radiation."
 
 /mob/admin/verb/map_teams()
