@@ -13,7 +13,7 @@
 
 /obj/item/vehicle/cart/CanDrive(T as turf, Dir)
 	var/obj/item/useable/installation/rail/O
-	O = locate() in T
+	O = LocatePlanted(T, /obj/item/useable/installation/rail)
 	if(O)
 		return O.planted
 
@@ -22,10 +22,8 @@
 	var/obj/item/useable/installation/rail/right
 	left = get_step(src, turn(dir, 90))
 	right = get_step(src, turn(dir, -90))
-	left = locate() in left
-	right = locate() in right
-	if(left && !left.planted) left = null
-	if(right && !right.planted) left = null
+	left = LocatePlanted(left, /obj/item/useable/installation/rail)
+	right = LocatePlanted(right, /obj/item/useable/installation/rail)
 	if(left && !right)
 		dir = turn(dir, 90)
 		if(speed == maxSpeed) speed--
