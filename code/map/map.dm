@@ -50,7 +50,7 @@
 	else
 		return "random"
 
-/map/proc/Lake(X, Y, size, count, stretch, vertical)
+/map/proc/Lake(X, Y, size, stretch, vertical)
 	var/minX
 	var/maxX
 	var/minY
