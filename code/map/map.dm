@@ -226,6 +226,7 @@
 			map.size = sizes[mapSize]
 		else
 			map.size = nextMap.size
+			mapSize = sizes:Find(map.size)
 		if(map.waterContent == "random")
 			map.waterContent = wetness[mapWater]
 		else
