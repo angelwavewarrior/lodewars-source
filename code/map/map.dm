@@ -423,14 +423,18 @@
 		var B, P
 		if(I && I.loc && I.buyer && !istype(I, /obj/item/ore))
 			B = locate(I.buyer)
+			// Ammo value is per pack of amt rounds.
+			var/V = I.value
+			if(istype(I, /obj/item/ammo))
+				V = I.value * I.quantity / I:amt
 			if(B)
 				if(ismob(I.loc))
 					P = I.loc
 					if(P:team == B:team)
-						B:recovered += round(I.value * 0.8)
+						B:recovered += round(V * 0.8)
 					else
-						P:recovered += round(I.value * 0.4)
-						B:insurance += round(I.value * 0.4)
+						P:recovered += round(V * 0.4)
+						B:insurance += round(V * 0.4)
 				else
-					B:recovered += round(I.value * 0.6)
+					B:recovered += round(V * 0.6)
 			del(I)
