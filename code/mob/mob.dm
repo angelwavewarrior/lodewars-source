@@ -108,9 +108,11 @@
 						tags = "b"
 						break
 			else
+				// Search on past each replacement, which may contain the word itself.
 				while(findtext(chat, F, startSearch, 0))
 					startSearch = findtext(chat, F, startSearch, 0)
-					chat = copytext(chat, 1, findtext(chat, F)) + filter[F] + copytext(chat, findtext(chat, F) + length(F), 0)
+					chat = copytext(chat, 1, startSearch) + filter[F] + copytext(chat, startSearch + length(F), 0)
+					startSearch += length(filter[F])
 	if(client.mute)
 		recievers = list(src)
 	usr.chat_time = max(usr.chat_time, world.time)
