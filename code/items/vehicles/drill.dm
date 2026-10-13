@@ -63,7 +63,7 @@
 		spawn(round(T:solidness / 2) + 6)
 			icon_state = "head"
 			if(src && get_step(src, dir) == T)
-				if(driver) driver.experience += driver.dexterity
+				if(main && main.driver) main.driver.experience += main.driver.dexterity
 				T:Dug()
 	else if(O != main)
 		. = ..()
