@@ -33,9 +33,9 @@
 	var/mob/player/M
 	var/obj/item/useable/installation/bridge/I
 	M = usr
-	I = locate() in T
 	if(!isturf(T))
 		T = GetTurf(T)
+	I = locate() in T
 	if(T && istype(T, /turf) && (T.Bridged() && !aquatic || !T.Bridged() && aquatic) && !T.density && length(T.contents - I) == 0 && ..(T))
 		if(!stackable || quantity == 1)
 			M.activeItem = null
