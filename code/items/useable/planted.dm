@@ -46,7 +46,7 @@
 
 /obj/item/useable/planted/shock_mine/Trigger(mob/M as mob)
 	if(M.team != team)
-		view(5, src) << "[M.name] triggers a stun mine!"
+		view(5, src) << "[M.name] triggers a shock mine!"
 		M.TakeDamage(35, 0.8, 0.6, owner, "shock mine")
 		if(M.vehicle)
 			M.vehicle.TakeDamage(35, 0.8, 0.6, owner, "shock mine")
