@@ -323,8 +323,8 @@
 							P.debt = 0
 							P << "A portion of your pay goes towards paying off your shop loan."
 						else
-							payout = 0
 							P.debt -= payout
+							payout = 0
 							P.debt = round(P.debt * 1.1)
 							P << "Unfortunately, your pay is confiscated to pay back your debts."
 					P.cash += payout
