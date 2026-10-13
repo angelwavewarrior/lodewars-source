@@ -129,15 +129,16 @@
 		O.loc = usr
 		ores.Add(O)
 	if(ores.len)
-		if(B)
-			if(B.team == usr.team)
-				B.deposit()
+		if(B && B.team == usr.team)
+			B.deposit()
 		else
+			var/turf/T = M.loc
 			for(var/D in list(1, 2, 4, 8, 5, 6, 9, 10))
 				if(CanReach(usr, get_step(loc, D)))
-					for(var/obj/item/ore/O in ores)
-						O.loc = get_step(loc, D)
+					T = get_step(loc, D)
 					break
+			for(var/obj/item/ore/O in ores)
+				O.loc = T
 	M.HUDUpdate("carry")
 
 /obj/item/vehicle/proc/AddTop()
