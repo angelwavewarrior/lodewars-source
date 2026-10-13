@@ -151,6 +151,10 @@
 			client.screen.Remove(masterHUD["/obj/hud/button/attack"])
 		else
 			client.screen.Remove(masterHUD["/obj/hud/button/observe"])
+	// The Cut above took the score bars off too.
+	if(showScores)
+		for(var/team/T in teams)
+			client.screen.Add(T.scoreDisplay)
 
 /mob/player/proc/ShopHUD()
 	for(var/h in shopHUD)
