@@ -19,6 +19,8 @@
 				waterLogged = 2
 	if(speed != CalcStat("speed"))
 		moveSpeed = 0
+	// Scuba gear's swim -4 can take a slow, armoured player below 0, and sqrt(-1) is an error.
+	moveSpeed = max(0, moveSpeed)
 	var/delay =  (8 - round(sqrt(moveSpeed)) + waterLogged)
 	glide_size = (32 / delay) * world.tick_lag
 	if(water && density)
