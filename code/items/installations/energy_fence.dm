@@ -63,10 +63,6 @@
 	for(var/D in dirs)
 		Kill(D)
 	dirs.Cut()
-	if(buyer)
-		var/B = locate(buyer)
-		if(B)
-			B:insurance += round(value * 0.4)
 	. = ..()
 
 /obj/item/useable/installation/energy_fence/proc/Energize(Dir, Target as turf)
