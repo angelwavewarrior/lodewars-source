@@ -169,7 +169,6 @@
 	ammoType = /obj/item/ammo/slag
 	delay = 7
 	ammo = 20
-	attackAnim = "pistol"
 	accuracy = 0.9
 
 /obj/item/equippable/weapon/sonic_disruptor
