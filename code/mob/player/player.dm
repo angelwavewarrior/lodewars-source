@@ -171,6 +171,7 @@
 	oreList = list()
 	radioactivity = 0
 	for(var/obj/item/O in inventory)
+		radioactivity += O.radioactivity * O.quantity
 		if(O == activeItem) continue
 		if(istype(O, /obj/item/equippable))
 			E = O
@@ -182,7 +183,6 @@
 			itemList.Add(O)
 		else
 			oreList.Add(O)
-		radioactivity += O.radioactivity
 	inventory.Cut()
 	if(activeItem)
 		if(oldHUDMode)
