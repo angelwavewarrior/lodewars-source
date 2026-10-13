@@ -185,6 +185,8 @@
 /mob/admin/verb/set_player_limit(N as num)
 	set desc = "Sets a limit on the total number of players that can log into a server--good for keeping lower-end servers from being flooded with players."
 	set category = "Admin"
+	// 0 is no limit. A negative limit would turn away every new player.
+	N = max(0, round(N))
 	playerLimit = N
 	if(N)
 		players << "Player limit set to [N] players."
