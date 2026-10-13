@@ -7,6 +7,8 @@
 	isDamageable = 1
 	isDense = 0
 	max_health = 100
+	// TakeDamage divides by defense - energy_defense, so both unset is a division by zero.
+	defense = 15
 
 /obj/item/useable/installation/telepad/Plant()
 	var/P
