@@ -92,7 +92,7 @@
 		if(istype(src, /obj/item/equippable/weapon) && M.oldHUDMode)
 			suffix = "[ammo] ammo"
 		. = 1
-		if("carry" in adds && M.health > 0)
+		if(("carry" in adds) && M.health > 0)
 			var/lowVal
 			while(M.encumberance > M.carry)
 				lowVal = 100000
@@ -101,6 +101,7 @@
 					if(O.value && O.weight && O.value / O.weight < lowVal && O != src)
 						lowVal = O.value / O.weight
 						I = O
-				I.drop()
+				if(!I || !I.drop())
+					break
 		else if("swim" in adds)
 			M.Move(M.loc)
