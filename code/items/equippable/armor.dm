@@ -60,7 +60,7 @@
 	icon_state = "power harness"
 	weight = 3.5
 	value = 8000
-	adds = list("defense" = 3, "energy defense" = 3)
+	adds = list("defense" = 3, "energy_defense" = 3)
 	slots = list("waist")
 	bannedRaces = list(/mob/player/zentan, /mob/player/mobbel, /mob/player/scradax, /mob/player/horzek, /mob/player/jezzer)
 
