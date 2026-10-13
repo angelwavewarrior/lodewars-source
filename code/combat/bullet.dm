@@ -140,6 +140,9 @@
 		heading += rand(-75, 75) + 180
 
 /obj/bullet/rocket/Hit(A as mob|obj|turf|area)
+	// Hit clears density: a rocket that is not dense has already exploded.
+	if(!density)
+		return
 	Explosion(GetTurf(A), power, 2, owner)
 	..()
 
