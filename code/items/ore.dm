@@ -101,8 +101,9 @@
 
 /obj/item/ore/Move(mob/player/M as mob)
 	. = ..()
-	if(istype(M, /mob/player))
-		if(!(vein in veinsFound))
+	if(. && istype(M, /mob/player))
+		if(vein && !(vein in veinsFound))
+			veinsFound.Add(vein)
 			M.experience += (M.speed + M.digging) * (value / 500)
 			if(M.team && M.team.expBonus == "find")
 				M.experience += 150
