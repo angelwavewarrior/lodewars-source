@@ -167,10 +167,10 @@
 
 /obj/item/vehicle/proc/Crash(S=speed, atom/movable/victim as mob|obj)
 	var/damage
-	damage = weight + max(rand(1, 5), speed ** 2 - weight) + 1
+	damage = weight + max(rand(1, 5), S ** 2 - weight) + 1
 	if(victim && victim.damageable)
 		if(damage > 10) victim.TakeDamage(damage, 0.7, 0.7, driver, "vehicle")
-	damage = max(rand(1, 5), speed ** 2 - weight)
+	damage = max(rand(1, 5), S ** 2 - weight)
 	if(damageable)
 		if(damage > 5) TakeDamage(damage, 0.7, 0.7, driver, "vehicle")
 	if(driver)
