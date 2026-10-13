@@ -126,7 +126,6 @@
 	V.Y = Y
 	V.ore = oreType
 	V.richness = richness
-	veins.Add(V)
 
 /proc/SeedOre(mapSize, dominantType)
 	var/veins

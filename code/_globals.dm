@@ -19,7 +19,6 @@ var/list/teams = list()
 var/list/weaponsCatalog = typesof(/obj/item/equippable/weapon) - /obj/item/equippable/weapon
 var/list/admins = list()
 var/list/shopBase = list()
-var/list/veins = list()
 var/list/playTeams = list()
 var/list/condensedCoords = list("strength" = "61,344", "attack" = "61,325", "speed" = "61,306", "dexterity" = "61,287", "intelligence" = "61,268", "aim" = "61,249", "defense" = "61,230", "digging" = "61,211", "rank" = "61,370", "health" = "69,182", "energy" = "69,163", "radiation" = "69,144", "cash" = "85,68", "carry" = "61, 87")
 var/list/adminList = list()
