@@ -62,6 +62,8 @@
 			if(K)
 				banKeys.Add(K)
 			start = findtext(T, "\n", start) + 1
+	banIP = LoadLines("bannedIP.txt")
+	unbanned = LoadLines("unbanned.txt")
 
 /proc/SaveBanned()
 	var/T
@@ -70,6 +72,33 @@
 		T += "[B]\n"
 	fdel("banned.txt")
 	. = text2file(T, "banned.txt")
+	SaveLines(banIP, "bannedIP.txt")
+	SaveLines(unbanned, "unbanned.txt")
+
+// One entry per line, spaces dropped. Addresses are not ckeys, which would drop the dots.
+/proc/LoadLines(name)
+	var/T
+	var/start
+	var/L
+	. = list()
+	start = 1
+	T = file2text(file(name))
+	if(T && length(T))
+		if(copytext(T, length(T)) != "\n")
+			T += "\n"
+		while(findtext(T, "\n", start))
+			L = replacetext(replacetext(copytext(T, start, findtext(T, "\n", start)), " ", ""), ascii2text(13), "")
+			if(L)
+				. += L
+			start = findtext(T, "\n", start) + 1
+
+/proc/SaveLines(list/L, name)
+	var/T
+	T = ""
+	for(var/E in L)
+		T += "[E]\n"
+	fdel(name)
+	. = text2file(T, name)
 
 /proc/LoadMOTD()
 	var/T

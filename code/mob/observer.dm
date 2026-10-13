@@ -53,12 +53,14 @@
 			else if(!(client.ckey in banKeys))
 				banKeys.Add(client.ckey)
 				admins << "Blocked banned IP [client.address] using key \"[client.key]\"."
+			SaveBanned()
 			del(client)
 			del(src)
 		else
 			if(client.ckey in banKeys) banKeys.Remove(client.ckey)
 			if(client.address in banIP) banIP.Remove(client.address)
 			admins << "Allowed previously banned key \"[client.key]\" in from [client.address]."
+			SaveBanned()
 	else if(!client.address || client.address == "127.0.0.1" || client.address == world.address)
 		if(!host || host == key)
 			admins.Add(src)

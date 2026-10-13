@@ -8,4 +8,6 @@
 saves/
 admin.txt
 banned.txt
+bannedIP.txt
+unbanned.txt
 filter.txt
