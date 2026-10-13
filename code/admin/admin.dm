@@ -8,6 +8,9 @@
 	start = 1
 	T = file2text(file("filter.txt"))
 	if(T && length(T))
+		// A last line with no newline after it would be skipped.
+		if(copytext(T, length(T)) != "\n")
+			T += "\n"
 		while(findtext(T, ":", start) && findtext(T, "\n", start))
 			filter[copytext(T, start, findtext(T, ":", start))] = copytext(T, findtext(T, ":", start) + 1, findtext(T, "\n", start))
 			start = findtext(T, "\n", start) + 1
@@ -26,6 +29,9 @@
 	start = 1
 	T = file2text(file("admin.txt"))
 	if(T && length(T))
+		// A last line with no newline after it would be skipped.
+		if(copytext(T, length(T)) != "\n")
+			T += "\n"
 		while(findtext(T, "\n", start))
 			adminList.Add(copytext(T, start, findtext(T, "\n", start)))
 			start = findtext(T, "\n", start) + 1
@@ -44,6 +50,9 @@
 	start = 1
 	T = file2text(file("banned.txt"))
 	if(T && length(T))
+		// A last line with no newline after it would be skipped.
+		if(copytext(T, length(T)) != "\n")
+			T += "\n"
 		while(findtext(T, "\n", start))
 			banKeys.Add(copytext(T, start, findtext(T, "\n", start)))
 			start = findtext(T, "\n", start) + 1
