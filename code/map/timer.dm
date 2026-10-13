@@ -7,7 +7,6 @@
 
 /obj/timer/proc/TickTock()
 	overlays.Cut()
-	time--
 	icon_state = num2text(time % 10)
 	if(time >= 10)
 		var/obj/hud/H = new()
@@ -18,7 +17,11 @@
 		overlays.Add(H)
 		del(H)
 	if(time > 0)
-		spawn(600) TickTock()
+		// Count the minute down after it has passed, so a 15 minute round shows 15 and lasts 15.
+		// end_game may set 0 while this waits.
+		spawn(600)
+			time = max(0, time - 1)
+			TickTock()
 		if(time == 5)
 			players << "<b>Only five minutes remaining!</b>"
 		else if(time == 1)
