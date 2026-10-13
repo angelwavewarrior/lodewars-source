@@ -15,9 +15,11 @@
 				if(("torso" in M.equipment) && istype(M.equipment["torso"], /obj/item/equippable/armor/blast_jacket))
 					A.TakeDamage(power * max(0.5, 1 - distance / max(range, 1)) * 0.4, 0.6, 0.8, attacker, source)
 				else
+					// The bolo bonus is for this mob only. Changing power gave it to every atom after.
+					var/P = power
 					if(istype(A, /mob/player/bolo))
-						power = round(power * 1.75)
-					A.TakeDamage(power * max(0.5, 1 - distance / max(range, 1)), 0.6, 0.8, attacker, source)
+						P = round(power * 1.75)
+					A.TakeDamage(P * max(0.5, 1 - distance / max(range, 1)), 0.6, 0.8, attacker, source)
 			else
 				A.TakeDamage(power * max(0.5, 1 - distance / max(range, 1)), 0.6, 0.8, attacker, source)
 	if(istype(T, /turf/dirt) && T.density)
