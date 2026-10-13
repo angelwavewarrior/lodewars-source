@@ -403,6 +403,8 @@
 
 /mob/player/Logout()
 	var/stop
+	// Before the status line, so the count leaves this player out.
+	players.Remove(src)
 	if(!switching)
 		players << "[name] logs out."
 		if(playerLimit)
@@ -423,7 +425,6 @@
 			spawn(1) del(src)
 	else
 		switching = 0
-	players.Remove(src)
 	admins.Remove(src)
 	if(team)
 		team.members.Remove(src)
