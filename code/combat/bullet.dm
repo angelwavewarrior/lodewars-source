@@ -46,12 +46,11 @@
 		else
 			if(ismob(O) || isobj(O))
 				var/M = O
-				var/P = O
 				if(istype(O, /obj/item/vehicle))
 					var/V = O
 					if(V:driver && !rand(0, 2)) O = V:driver
 				if(ismob(O))
-					M = GetMob(P)
+					M = GetMob(O)
 				else
 					power /= 2
 				if(hit != M)
