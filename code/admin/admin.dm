@@ -161,6 +161,7 @@
 	if(ismob(M))
 		B = GetMob(M)
 		banKeys.Add(B.ckey)
+		unbanned.Remove(B.ckey)
 		if(B.client)
 			addy = B.client.address
 			banIP.Add(B.client.address)
@@ -168,6 +169,7 @@
 		del(B)
 	else
 		banKeys.Add(ckey(M))
+		unbanned.Remove(ckey(M))
 		for(var/mob/P in players)
 			if(P.ckey == ckey(M))
 				if(P.client)
@@ -179,6 +181,9 @@
 		if(P.client && P.client.address && P.client.address == addy)
 			del(P.client)
 			del(P)
+	// Login lets in anything still on the unbanned list.
+	if(addy)
+		unbanned.Remove(addy)
 	SaveBanned()
 
 /mob/admin/verb/unban(Type in list("Key name", "IP address"), target in Type == "Key name" ? banKeys : banIP)
