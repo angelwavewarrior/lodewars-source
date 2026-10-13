@@ -385,7 +385,8 @@
 				cash = money["[name]/[race]"]
 	DisplayStats()
 	tag = name
-	if(!client.address || client.address == "127.0.0.1" || client.address == world.address)
+	// Only the host. Another key on the host's machine is local too.
+	if(host && key == host)
 		admins.Add(src)
 		verbs.Add(typesof(/mob/admin/verb))
 		verbs.Add(typesof(/mob/host/verb))
