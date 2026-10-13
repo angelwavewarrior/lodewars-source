@@ -146,8 +146,8 @@
 	if(usr.chat_time > world.time + 85)
 		usr << "Booted for spamming."
 		recievers - usr << "[usr] was booted for spam."
+		// Logout saves and then deletes the mob.
 		del(usr.client)
-		del(usr)
 	else
 		chat = html_encode(chat)
 		spawn(max(0, usr.chat_time - world.time))
