@@ -211,8 +211,12 @@
 		if(n)
 			. += round(rank / 8) + (rank % 8 >= n)
 		var/obj/item/equippable/E
+		// Two-slot armour sits under both slots; count it once.
+		var/list/counted = list()
 		for(var/O in equipment)
 			E = equipment[O]
+			if(E in counted) continue
+			counted += E
 			if(Stat in E.adds)
 				. += E.adds[Stat]
 
