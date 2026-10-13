@@ -360,7 +360,7 @@
 	set desc = "Sets the rank players are assigned for the next round. This option means that characters are neither saved nor loaded for the next round, but instead start with predetermined rank and money. Leave it blank to remove the setting."
 	set category = "Map"
 	if(!isnull(n))
-		n = max(0, min(30, n))
+		n = max(0, min(30, round(n)))
 		if(!nextMap)
 			nextMap = new/map()
 		nextMap.rank = n
