@@ -118,7 +118,8 @@
 	usr.chat_time = max(usr.chat_time, world.time)
 	if(usr.team)
 		teamImg = "\icon[usr.team.comm]"
-	while(findtext(chat, "\n", startSearch, 0))
+	// Search from the start. startSearch is left over from the filter loops.
+	while(findtext(chat, "\n"))
 		usr.chat_time += 6
 		chat = "[copytext(chat, 1, findtext(chat, "\n"))][copytext(chat, findtext(chat, "\n") + 1, 0)]"
 	if(length(chat) > 250)
