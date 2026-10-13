@@ -223,6 +223,21 @@
 /mob/player/proc/DeShop()
 	DeShopHUD()
 	if(!loc || !team)
+		// Dead or between rounds: nothing can be delivered, so refund the cart.
+		if(client)
+			for(var/O in shopList)
+				client.screen.Remove(O)
+			if(team)
+				for(var/obj/shop/S in team.totalShopList)
+					client.images.Remove(S.highlight)
+		cash += bill
+		for(var/S in shoppingCart)
+			del(S)
+		shoppingCart.Cut()
+		bill = 0
+		shopping = 0
+		shopList = null
+		shopWeight = 0
 		return
 	for(var/obj/O in shopList)
 		client.screen.Remove(O)
