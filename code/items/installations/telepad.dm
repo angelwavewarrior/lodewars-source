@@ -6,7 +6,7 @@
 	value = 4000
 	isDamageable = 1
 	isDense = 0
-	health = 100
+	max_health = 100
 
 /obj/item/useable/installation/telepad/Plant()
 	var/P
