@@ -192,7 +192,8 @@
 	client.screen.Add(H)
 	H.layer = 15
 	if(Field == "carry")
-		value = vars["carry"] - encumberance
+		// statnum.dmi has no minus sign, so overloaded shows 0 rather than a blank.
+		value = max(0, vars["carry"] - encumberance)
 		H.layer = 14.05
 	H.icon = 'statnum.dmi'
 	H.icon_state = num2text(value % 10)
