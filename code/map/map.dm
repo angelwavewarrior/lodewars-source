@@ -194,13 +194,13 @@
 		if(mapSize >= 4) mapSize -= 2
 	else if(players.len <= 10)
 		if(mapSize == 5) mapSize = 3
+	else if(players.len >= 27)
+		if(mapSize < 3) mapSize += 3
+	else if(players.len >= 20)
+		if(mapSize < 3) mapSize += 2
 	else if(players.len >= 14)
 		if(mapSize == 1) mapSize = 3
 		if(mapSize == 5 && rand(0, 1)) mapSize = 4
-	else if(players.len >= 20)
-		if(mapSize < 3) mapSize += 2
-	else if(players.len >= 27)
-		if(mapSize < 3) mapSize += 3
 	map = new/map()
 	if(!nextMap)
 		map = new/map()
