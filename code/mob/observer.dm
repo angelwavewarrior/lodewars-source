@@ -25,6 +25,7 @@
 
 /mob/observer/Logout()
 	players.Remove(src)
+	admins.Remove(src)
 	tag = null
 	loc = null
 	spawn(1)

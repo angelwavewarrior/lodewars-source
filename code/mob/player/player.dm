@@ -423,6 +423,7 @@
 	else
 		switching = 0
 	players.Remove(src)
+	admins.Remove(src)
 	if(team)
 		team.members.Remove(src)
 		team.UpdateScore()
