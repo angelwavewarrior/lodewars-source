@@ -138,25 +138,30 @@
 				var/V = O.value
 				if(istype(O, /obj/item/ammo))
 					V = O.value * O.quantity / O:amt
-				var/B = locate(O.buyer)
-				if(B && B == M)
-					M:cash += round(V * 0.8)
-					M << "You sell \the [O.name] for $[round(V * 0.8)]."
-					M:HUDUpdate("cash", 5)
-				else if(!B)
-					M:cash += round(V * 0.4)
-					M << "You sell \the [O.name] for $[round(V * 0.4)]."
-					M:HUDUpdate("cash", 5)
-				else if(B:team == M:team)
-					B:cash += round(V * 0.8)
-					M << "You return your teammate [B:name]'s [O.name]."
-					B << "[M:name] returns your [O.name] to the shop for $[round(V * 0.8)]."
-					B:HUDUpdate("cash", 5)
-				else
-					M:cash += round(V * 0.4)
-					M << "You sell \the [O.name] for $[round(V * 0.4)]."
-					B:insurance += round(V * 0.4)
-					M:HUDUpdate("cash", 5)
+				// Each buyer's share of a merged stack is paid as if sold on its own.
+				var/list/L = O.Buyers()
+				var/Q = O.quantity
+				for(var/K in L)
+					var/P = V * L[K] / Q
+					var/B = K ? locate(K) : null
+					if(B && B == M)
+						M:cash += round(P * 0.8)
+						M << "You sell \the [O.name] for $[round(P * 0.8)]."
+						M:HUDUpdate("cash", 5)
+					else if(!B)
+						M:cash += round(P * 0.4)
+						M << "You sell \the [O.name] for $[round(P * 0.4)]."
+						M:HUDUpdate("cash", 5)
+					else if(B:team == M:team)
+						B:cash += round(P * 0.8)
+						M << "You return your teammate [B:name]'s [O.name]."
+						B << "[M:name] returns your [O.name] to the shop for $[round(P * 0.8)]."
+						B:HUDUpdate("cash", 5)
+					else
+						M:cash += round(P * 0.4)
+						M << "You sell \the [O.name] for $[round(P * 0.4)]."
+						B:insurance += round(P * 0.4)
+						M:HUDUpdate("cash", 5)
 				M:client:screen:Remove(O)
 				if(O in M:inventory)
 					M:inventory:Remove(O)

@@ -16,6 +16,7 @@ mob/glide_size = 16
 		if(O.stackable && I)
 			encumberance += O.CalcWeight()
 			radioactivity += O.radioactivity * O.quantity
+			I:AddBuyers(O.Buyers())
 			I:quantity += O.quantity
 			I:UpdateQuantity()
 			O.loc = null

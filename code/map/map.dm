@@ -424,20 +424,24 @@
 /proc/Refunds()
 	for(var/obj/item/I in world)
 		var B, P
-		if(I && I.loc && I.buyer && !istype(I, /obj/item/ore))
-			B = locate(I.buyer)
+		if(I && I.loc && (I.buyer || I.buyers) && !istype(I, /obj/item/ore))
 			// Ammo value is per pack of amt rounds.
 			var/V = I.value
 			if(istype(I, /obj/item/ammo))
 				V = I.value * I.quantity / I:amt
-			if(B)
-				if(ismob(I.loc))
-					P = I.loc
-					if(P:team == B:team)
-						B:recovered += round(V * 0.8)
+			// A merged stack refunds each buyer's share separately.
+			var/list/L = I.Buyers()
+			for(var/K in L)
+				var/S = V * L[K] / I.quantity
+				B = K ? locate(K) : null
+				if(B)
+					if(ismob(I.loc))
+						P = I.loc
+						if(P:team == B:team)
+							B:recovered += round(S * 0.8)
+						else
+							P:recovered += round(S * 0.4)
+							B:insurance += round(S * 0.4)
 					else
-						P:recovered += round(V * 0.4)
-						B:insurance += round(V * 0.4)
-				else
-					B:recovered += round(V * 0.6)
+						B:recovered += round(S * 0.6)
 			del(I)

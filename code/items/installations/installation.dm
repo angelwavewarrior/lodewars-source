@@ -49,6 +49,7 @@
 			I.team = M.team
 			I.owner = M
 			I.Plant()
+			TakeBuyers(1)
 			quantity--
 			UpdateQuantity()
 			. = I
