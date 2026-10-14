@@ -7,15 +7,11 @@
 	value = 150
 	range = 6
 
-/obj/item/useable/battery/Use()
-	set name = "use"
-	set src in usr
-	var/mob/player/M
+/obj/item/useable/battery/UseBy(mob/player/M, target)
 	var/boostAmt
-	M = usr
 	boostAmt = round(rand(1, M.intelligence) / 3) + 18
-	if(..(src))
+	if(..(M, src))
 		M.energy = min(M.energy + boostAmt, M.max_energy)
 		M.HUDBar("energy")
-		view(5) << "[M.name] uses a battery charge."
-		Discard()
+		view(5, M) << "[M.name] uses a battery charge."
+		Discard(M)

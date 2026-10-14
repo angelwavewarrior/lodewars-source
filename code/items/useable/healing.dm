@@ -15,27 +15,19 @@
 	value = 30
 	delay = 4
 
-/obj/item/useable/healing/med_patch/Use(mob/player/target as mob)
-	set name = "use"
-	set src in usr
-	var/mob/player/M
-	M = usr
+/obj/item/useable/healing/med_patch/UseBy(mob/player/M, mob/player/target)
 	target = GetMob(target)
 	if(istype(target, /mob/player) && ..())
 		var/healAmt = rand(12, round(M.intelligence * 0.65) + 10)
 		target.health = min(target.health + healAmt, target.max_health)
 		target.HUDBar("health")
 		if(target != M)
-			view(5) << "[M.name] uses a med patch on [target.name] for [healAmt] health."
+			view(5, M) << "[M.name] uses a med patch on [target.name] for [healAmt] health."
 		else
-			view(5) << "[M.name] uses a med patch on [Him(M)]self for [healAmt] health."
-		Discard()
+			view(5, M) << "[M.name] uses a med patch on [Him(M)]self for [healAmt] health."
+		Discard(M)
 
-/obj/item/useable/healing/bio_kit/Use(mob/player/target as mob)
-	set name = "use"
-	set src in usr
-	var/mob/player/M
-	M = usr
+/obj/item/useable/healing/bio_kit/UseBy(mob/player/M, mob/player/target)
 	target = GetMob(target)
 	if(istype(target, /mob/player) && ..())
 		var/healAmt = rand(30, M.intelligence + rand(1, M.intelligence) + 30)
@@ -45,7 +37,7 @@
 		target.regen = 20
 		target.HUDBar("health")
 		if(target != M)
-			view(5) << "[M.name] uses a biofix kit on [target.name] for [healAmt] health."
+			view(5, M) << "[M.name] uses a biofix kit on [target.name] for [healAmt] health."
 		else
-			view(5) << "[M.name] uses a biofix kit on [Him(M)]self for [healAmt] health."
-		Discard()
+			view(5, M) << "[M.name] uses a biofix kit on [Him(M)]self for [healAmt] health."
+		Discard(M)

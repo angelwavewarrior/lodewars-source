@@ -7,15 +7,11 @@
 	value = 100
 	range = 6
 
-/obj/item/useable/pill/DefaultUse()
+/obj/item/useable/pill/DefaultUse(mob/M)
 	return src
 
-/obj/item/useable/pill/Use()
-	set name = "use"
-	set src in usr
-	var/mob/player/M
-	M = usr
-	if(..(src))
+/obj/item/useable/pill/UseBy(mob/player/M, target)
+	if(..(M, src))
 		M.radBlock = 30
-		view(5) << "[M.name] takes a radiation pill."
-		Discard()
+		view(5, M) << "[M.name] takes a radiation pill."
+		Discard(M)

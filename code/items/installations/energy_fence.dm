@@ -20,15 +20,12 @@
 	overlays.Add(icon('team_badge.dmi', team.name))
 	..()
 
-/obj/item/useable/installation/energy_fence/Use()
-	set name = "use"
-	set src in usr
+/obj/item/useable/installation/energy_fence/UseBy(mob/player/M, T)
 	var/turf/OK
 	OK = ..()
 	if(OK)
 		OK.Update()
-		var/M = usr
-		M:HUDUpdate("carry")
+		M.HUDUpdate("carry")
 
 /obj/item/useable/installation/energy_fence/Botch(M as mob)
 	var/obj/beam/B

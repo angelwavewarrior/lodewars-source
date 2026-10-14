@@ -27,16 +27,12 @@
 	Unplant()
 	. = ..()
 
-/obj/item/useable/installation/Use(turf/T as turf)
-	set name = "use"
-	set src in usr
-	var/mob/player/M
+/obj/item/useable/installation/UseBy(mob/player/M, turf/T)
 	var/obj/item/useable/installation/bridge/I
-	M = usr
 	if(!isturf(T))
 		T = GetTurf(T)
 	I = locate() in T
-	if(T && istype(T, /turf) && (T.Bridged() && !aquatic || !T.Bridged() && aquatic) && !T.density && length(T.contents - I) == 0 && ..(T))
+	if(T && istype(T, /turf) && (T.Bridged() && !aquatic || !T.Bridged() && aquatic) && !T.density && length(T.contents - I) == 0 && ..(M, T))
 		if(!stackable || quantity == 1)
 			M.activeItem = null
 			team = M.team

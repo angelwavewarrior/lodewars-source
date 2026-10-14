@@ -76,15 +76,12 @@
 		else
 			icon_state = "floor"
 
-/obj/item/useable/planted/Use(A as mob|obj|turf|area)
-	set name = "use"
-	set src in usr
+/obj/item/useable/planted/UseBy(mob/player/M, A)
 	var/T
 	T = GetTurf(A)
-	if(istype(T, /turf/dirt) && (!locate(/obj/item/useable/planted) in T) && CanReach(GetTurf(src), GetTurf(A)) && ..(A))
+	if(istype(T, /turf/dirt) && (!locate(/obj/item/useable/planted) in T) && CanReach(GetTurf(src), GetTurf(A)) && ..(M, A))
 		var/P = new type(GetTurf(A))
-		var/M = usr
 		P:owner = M
-		P:team = M:team
+		P:team = M.team
 		P:Plant()
-		Discard()
+		Discard(M)

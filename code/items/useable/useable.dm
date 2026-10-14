@@ -47,12 +47,15 @@
 /obj/item/useable/proc/Use(target as mob|obj|turf|area)
 	set name = "use"
 	set src in usr
-	var/mob/player/M
+	return UseBy(usr, target)
+
+// What using this does. Use() is only the verb; it runs this base path whatever the
+// item, so each item overrides UseBy and the verb and a click both reach it.
+/obj/item/useable/proc/UseBy(mob/player/M, target)
 	var/wait
 	var/reach
 	if(!target)
-		target = DefaultUse()
-	M = usr
+		target = DefaultUse(M)
 	wait = delay * (3 - M.dexterity / 10) / 1.25
 	reach = 0
 	if(M.dexterity != M.CalcStat("dexterity"))
@@ -64,7 +67,7 @@
 	else
 		M.act_delay = world.time + delay * (3 - M.dexterity / 10)
 		if(useAnim)
-			if(usr.icon_state == "swim")
+			if(M.icon_state == "swim")
 				M.icon_state = "swimaction"
 				M.dir = get_dir(M, target)
 				spawn(wait) M.icon_state = "swim"
@@ -80,12 +83,10 @@
 			M.HUDBar("energy")
 		return 1
 
-/obj/item/useable/proc/DefaultUse()
-	return FrontTurf(usr, usr.dir)
+/obj/item/useable/proc/DefaultUse(mob/M)
+	return FrontTurf(M, M.dir)
 
-/obj/item/useable/proc/Discard()
-	var/mob/player/M
-	M = usr
+/obj/item/useable/proc/Discard(mob/player/M)
 	if(istype(M, /mob/player))
 		if(quantity > 1)
 			TakeBuyerCounts(1)

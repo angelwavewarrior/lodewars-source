@@ -67,7 +67,7 @@
 					W:Fire(GetTurf(src))
 				else if(istype(M.activeItem, /obj/item/useable))
 					var/U = M.activeItem
-					U:Use(src)
+					U:UseBy(M, src)
 			else
 				var/obj/item/useable/installation/I = locate() in T:contents
 				var/obj/item/vehicle/V = locate() in T:contents
