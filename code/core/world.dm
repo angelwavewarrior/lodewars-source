@@ -17,6 +17,55 @@
 /proc/GetMob(mob/M as mob)
 	return M
 
+// get_dist, range() and orange() measure a bolo from its bottom-left tile. These use its whole footprint.
+
+// The thing on the map that holds A: A itself, or the mob or vehicle carrying it.
+/proc/MapHolder(atom/A)
+	while(A && !isturf(A) && A.loc && !isturf(A.loc))
+		A = A.loc
+	return A
+
+// Tiles between two footprints, as get_dist counts them: 0 overlapping, 1 adjacent.
+/proc/TileDist(atom/A, atom/B)
+	A = MapHolder(A)
+	B = MapHolder(B)
+	if(!A || !B || !A.z || A.z != B.z)
+		return 1#INF
+	var/aw = 1
+	var/ah = 1
+	var/bw = 1
+	var/bh = 1
+	if(istype(A, /atom/movable))
+		aw = max(1, round(A:bound_width / world.icon_size))
+		ah = max(1, round(A:bound_height / world.icon_size))
+	if(istype(B, /atom/movable))
+		bw = max(1, round(B:bound_width / world.icon_size))
+		bh = max(1, round(B:bound_height / world.icon_size))
+	var/dx = max(0, A.x - (B.x + bw - 1), B.x - (A.x + aw - 1))
+	var/dy = max(0, A.y - (B.y + bh - 1), B.y - (A.y + ah - 1))
+	return max(dx, dy)
+
+// The tile just past M's footprint in direction D.
+/proc/FrontTurf(atom/movable/M, D)
+	var/tx = M.x
+	var/ty = M.y
+	if(D & EAST)
+		tx = M.x + max(1, round(M.bound_width / world.icon_size))
+	else if(D & WEST)
+		tx = M.x - 1
+	if(D & NORTH)
+		ty = M.y + max(1, round(M.bound_height / world.icon_size))
+	else if(D & SOUTH)
+		ty = M.y - 1
+	return locate(tx, ty, M.z)
+
+// orange(R) around every tile M covers.
+/proc/Around(atom/movable/M, R)
+	. = list()
+	for(var/turf/T in M.locs)
+		. |= range(R, T)
+	. -= M
+
 // A planted installation of that type on T. locate() can return an unplanted one lying there.
 /proc/LocatePlanted(T, type)
 	for(var/obj/item/I in T)

@@ -93,7 +93,7 @@
 
 /obj/item/vehicle/flathauler/bed/dump()
 	set desc = "Empties a vehicle of its contents."
-	set src in range(1)
+	set src in view(1)
 	. = ..()
 	if(driver)
 		Unload(driver)

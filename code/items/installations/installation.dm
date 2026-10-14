@@ -64,7 +64,7 @@
 /obj/item/useable/installation/proc/UsedBy(M as mob)
 
 /obj/item/useable/installation/proc/dismantle()
-	set src in orange(1)
+	set src in oview(1)
 	if(usr.tag == buyer)
 		Unplant()
 		verbs.Remove(/obj/item/useable/installation/proc/dismantle)

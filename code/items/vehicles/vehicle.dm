@@ -114,11 +114,11 @@
 
 /obj/item/vehicle/proc/dump()
 	set desc = "Empties a vehicle of its contents."
-	set src in range(1)
+	set src in view(1)
 	var/turf/base/bin/B
 	var/list/ores
 	var/mob/player/M
-	B = locate() in range(1)
+	B = locate() in Around(usr, 1)
 	ores = list()
 	M = usr
 	if(!istype(usr, /mob/player))

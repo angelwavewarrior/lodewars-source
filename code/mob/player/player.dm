@@ -334,7 +334,7 @@
 		if("ammo") filter = /obj/item/ammo
 		if("equipment") filter = /obj/item/equippable
 		if("items") filter = /obj/item/useable
-	for(var/obj/item/O in orange(1))
+	for(var/obj/item/O in Around(usr, 1))
 		if(!filter || istype(O, filter))
 			if(O.value > bestVal && encumberance + O.weight <= carry)
 				T = GetTurf(O)

@@ -57,7 +57,7 @@
 	reach = 0
 	if(M.dexterity != M.CalcStat("dexterity"))
 		wait = delay * 3
-	if(get_dist(M, target) <= range)
+	if(TileDist(M, target) <= range)
 		reach = 1
 	if(M.act_delay > world.time || !reach || powerDrain > M.energy)
 		return 0
@@ -81,7 +81,7 @@
 		return 1
 
 /obj/item/useable/proc/DefaultUse()
-	return get_step(usr, usr.dir)
+	return FrontTurf(usr, usr.dir)
 
 /obj/item/useable/proc/Discard()
 	var/mob/player/M

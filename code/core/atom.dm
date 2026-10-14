@@ -59,7 +59,7 @@
 				O = locate() in T.contents - O
 			if(O && M.mode == "get" && M.CanGet(O))
 				O.get()
-			else if(P && M.mode == "attack" && P != M && get_dist(P, M) <= 1)
+			else if(P && M.mode == "attack" && P != M && TileDist(P, M) <= 1)
 				P:attack()
 			else if(M.activeItem)
 				if(istype(M.activeItem, /obj/item/equippable/weapon))
@@ -72,14 +72,14 @@
 				var/obj/item/useable/installation/I = locate() in T:contents
 				var/obj/item/vehicle/V = locate() in T:contents
 				if(I && I.planted)
-					if(M.mode == "default" && get_dist(I, M) <= 1)
+					if(M.mode == "default" && TileDist(I, M) <= 1)
 						I.UsedBy(M)
-					else if(M.mode == "attack" && I.team != M.team && get_dist(I, M) <= 1)
+					else if(M.mode == "attack" && I.team != M.team && TileDist(I, M) <= 1)
 						M.Attack(I)
 				if(V)
 					if(V.driver)
-						if(M.mode == "attack" && V.driver.team != M.team && get_dist(V, M) <= 1)
+						if(M.mode == "attack" && V.driver.team != M.team && TileDist(V, M) <= 1)
 							M.Attack(V)
 					else
-						if(M.mode == "default" && get_dist(V, M) <= 1)
+						if(M.mode == "default" && TileDist(V, M) <= 1)
 							V.board()

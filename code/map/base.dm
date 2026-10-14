@@ -87,15 +87,15 @@
 		if(team) overlays.Add(icon('banner.dmi', team.name))
 
 /turf/base/computer/Click()
-	if(get_dist(usr, src) <= 1) readout()
+	if(TileDist(usr, src) <= 1) readout()
 
 /turf/base/computer/verb/readout()
-	set src in range(1)
+	set src in view(1)
 	if(istype(usr, /mob/player))
 		usr << map.Readings()
 
 /turf/base/bin/Click()
-	if(get_dist(usr, src) <= 1)
+	if(TileDist(usr, src) <= 1)
 		deposit()
 	else
 		..()
@@ -127,7 +127,7 @@
 	team.UpdateScore()
 
 /turf/base/bin/verb/deposit()
-	set src in orange(1)
+	set src in oview(1)
 	var/obj/item/ore/O
 	var/mob/player/M
 	O = locate() in usr
@@ -158,7 +158,7 @@
 		team.UpdateScore()
 
 /turf/base/bin/verb/steal()
-	set src in orange(1)
+	set src in oview(1)
 	var/mob/player/M
 	M = usr
 	if(istype(M, /mob/player) && M.act_delay <= world.time)

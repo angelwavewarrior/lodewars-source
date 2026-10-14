@@ -68,12 +68,12 @@
 			client.screen.Add(masterHUD["up"])
 
 /turf/base/shop_console/Click()
-	if(get_dist(usr, src) <= 1)
+	if(TileDist(usr, src) <= 1)
 		shop()
 
 /turf/base/shop_console/verb/borrow()
 	set desc = "Obtains some extra cash. Players cannot borrow if they already owe money, and must repay loans from their next paycheck."
-	set src in orange(1)
+	set src in oview(1)
 	var/mob/player/M
 	M = usr
 	if(istype(M, /mob/player) && !M.debt)
@@ -84,7 +84,7 @@
 
 /turf/base/shop_console/verb/shop()
 	set desc = "Enters the graphical shop interface."
-	set src in orange(1)
+	set src in oview(1)
 	var/mob/player/M
 	M = usr
 	if(!istype(M, /mob/player))
@@ -108,7 +108,7 @@
 /turf/base/shop_console/verb/buy(S as obj in usr.team.totalShopList, amt=1 as num|null)
 	set desc = "Purchase an item quickly without entering the graphical shop interface."
 	set popup_menu = 0
-	set src = orange(1)
+	set src = oview(1)
 	var/mob/player/M
 	var/oldShop
 	M = usr
@@ -127,7 +127,7 @@
 
 /turf/base/shop_console/verb/sell(obj/item/O as obj)
 	set desc = "Sells an item back to the store for credit."
-	set src = orange(1)
+	set src = oview(1)
 	if(O && !istype(O, /obj/item/ore))
 		if(O.loc == usr)
 			var/M = usr

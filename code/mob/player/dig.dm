@@ -10,9 +10,7 @@
 		act_delay += delay
 	sleep(delay * size - 1)
 	icon_state = "run"
-	var/check_dist = 1
-	if(istype(src,/mob/player/bolo)) check_dist = 2
-	if(src && T && get_dist(src, T) <= check_dist)
+	if(src && T && TileDist(src, T) <= 1)
 		experience += digging + 10
 		T.Dug()
 		act_delay = 0

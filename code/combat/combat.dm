@@ -36,7 +36,7 @@
 				U:Dump()
 
 /mob/player/proc/Attack(atom/movable/M as mob|obj)
-	if(world.time >= act_delay && get_dist(src, M) <= size)
+	if(world.time >= act_delay && TileDist(src, M) <= 1)
 		var/lethal = 0.25
 		var/pierce = 0.25
 		var/delay = 9 - round(dexterity / 6) - round(attack / 6)
@@ -96,7 +96,7 @@
 					experience -= max(0, 500 - rank * 50 + teamKills * 500)
 					teamKills++
 	else
-		if(get_dist(M, team.bin) <= 16)
+		if(TileDist(M, team.bin) <= 16)
 			experience += attack * 2 + 100
 			if(team.expBonus == "trespass")
 				src << "Your reciever crackles with the voice of your foreman. <i>\"Excellent work there, soldier. We need to send a strong message that the IKMF is not to be trifled with--keep it up and you could earn yourself a promotion.\"</i>"
@@ -198,7 +198,7 @@
 	loc = null
 
 /mob/player/verb/attack()
-	set src in orange(1)
+	set src in oview(1)
 	var/mob/player/M
 	M = usr
 	src = GetMob(src)
