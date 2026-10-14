@@ -195,7 +195,7 @@
 	U = GetTurf(loc)
 	if(M.act_delay < world.time || spin)
 		var/water
-		if(T == GetTurf(src))
+		if(T == GetTurf(src) || (T in M.locs))
 			return
 		else if(istype(T, /turf/base) && istype(GetTurf(src), /turf/base))
 			return
@@ -206,8 +206,9 @@
 				return
 		var/attackDelay
 		if((ammo || !ammoType) && M.energy >= powerDrain)
-			var/B = new bulletType(GetTurf(src))
-			var/range = ((T:x - loc.x) ** 2 + (T:y - loc.y) ** 2) ** 0.5
+			var/turf/start = NearestTile(M, T)
+			var/B = new bulletType(start)
+			var/range = ((T:x - start.x) ** 2 + (T:y - start.y) ** 2) ** 0.5
 			if(!spin) view(6) << "[M.name] fires [name]!"
 			B:power = power
 			B:power += M.aim / 3 + M.attack / 6
@@ -217,7 +218,7 @@
 			B:owner = usr
 			B:icon = 'bullet.dmi'
 			B:trail = trail
-			B:GetHeading(range, GetTurf(src), T)
+			B:GetHeading(range, start, T)
 			usr.dir = B:dir
 			B:heading += rand(min(0, M.aim * 1.5 + accuracy * 30 + -55), max(0, 55 - M.aim * 1.5 - accuracy * 30))
 			if(water)

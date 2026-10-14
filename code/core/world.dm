@@ -45,6 +45,16 @@
 	var/dy = max(0, A.y - (B.y + bh - 1), B.y - (A.y + ah - 1))
 	return max(dx, dy)
 
+// The tile of M's footprint nearest to T, where M's shots start.
+/proc/NearestTile(atom/movable/M, atom/T)
+	M = MapHolder(M)
+	T = GetTurf(T)
+	if(!M || !T || !istype(M, /atom/movable))
+		return GetTurf(M)
+	var/w = max(1, round(M.bound_width / world.icon_size))
+	var/h = max(1, round(M.bound_height / world.icon_size))
+	return locate(clamp(T.x, M.x, M.x + w - 1), clamp(T.y, M.y, M.y + h - 1), M.z)
+
 // The tile just past M's footprint in direction D.
 /proc/FrontTurf(atom/movable/M, D)
 	var/tx = M.x
