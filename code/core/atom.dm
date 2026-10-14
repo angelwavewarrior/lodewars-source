@@ -64,7 +64,7 @@
 			else if(M.activeItem)
 				if(istype(M.activeItem, /obj/item/equippable/weapon))
 					var/W = M.activeItem
-					W:Fire(GetTurf(src))
+					W:Fire(M, GetTurf(src))
 				else if(istype(M.activeItem, /obj/item/useable))
 					var/U = M.activeItem
 					U:UseBy(M, src)

@@ -86,7 +86,7 @@
 	range = ((A:x - T:x) ** 2 + (A:y - T:y) ** 2) ** 0.5
 	if(..(M, A))
 		var/obj/bullet/rocket/grenade/G = new(GetTurf(src))
-		G.GetHeading(range, GetTurf(src), GetTurf(A))
+		G.GetHeading(range, GetTurf(src), GetTurf(A), M)
 		G.owner = M
 		G.team = M.team
 		G.power = power

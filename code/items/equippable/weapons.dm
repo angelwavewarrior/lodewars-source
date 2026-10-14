@@ -188,10 +188,8 @@
 	attackAnim = "rifle"
 	accuracy = 0.88
 
-/obj/item/equippable/weapon/proc/Fire(T as turf, spin)
-	var/mob/player/M
+/obj/item/equippable/weapon/proc/Fire(mob/player/M, T as turf, spin)
 	var/turf/U
-	M = usr
 	U = GetTurf(loc)
 	if(M.act_delay < world.time || spin)
 		var/water
@@ -202,24 +200,24 @@
 		else if(istype(GetTurf(src), /turf/water) && !M.vehicle && !U.Bridged() && !istype(M, /mob/player/bolo))
 			water = 1
 			if(attackAnim != "pistol")
-				usr << "You can't fire that from water!"
+				M << "You can't fire that from water!"
 				return
 		var/attackDelay
 		if((ammo || !ammoType) && M.energy >= powerDrain)
 			var/turf/start = NearestTile(M, T)
 			var/B = new bulletType(start)
 			var/range = ((T:x - start.x) ** 2 + (T:y - start.y) ** 2) ** 0.5
-			if(!spin) view(6) << "[M.name] fires [name]!"
+			if(!spin) view(6, M) << "[M.name] fires [name]!"
 			B:power = power
 			B:power += M.aim / 3 + M.attack / 6
 			B:power = rand(round(B:power / 2, 1), B:power)
 			B:penetration = penetration
 			B:lethality = lethality
-			B:owner = usr
+			B:owner = M
 			B:icon = 'bullet.dmi'
 			B:trail = trail
-			B:GetHeading(range, start, T)
-			usr.dir = B:dir
+			B:GetHeading(range, start, T, M)
+			M.dir = B:dir
 			B:heading += rand(min(0, M.aim * 1.5 + accuracy * 30 + -55), max(0, 55 - M.aim * 1.5 - accuracy * 30))
 			if(water)
 				flick("swimfire", M)
@@ -243,29 +241,25 @@
 				attackDelay = round(delay * 1.5)
 			M.act_delay = world.time + attackDelay
 		else if(ammoType)
-			LoadAmmo()
+			LoadAmmo(M)
 			attackDelay = round((delay + delay * 1.5 / (M.dexterity / 10) + 1 - M.dexterity / 6) / 2, 1)
 			M.act_delay = world.time + attackDelay
 
-/obj/item/equippable/weapon/riot_cannon/Fire(A as mob|obj|turf|area, spin=0)
-	var/mob/player/P
-	P = usr
-	if(P.act_delay <= world.time || P.icon_state == attackAnim || spin)
+/obj/item/equippable/weapon/riot_cannon/Fire(mob/player/M, A as mob|obj|turf|area, spin=0)
+	if(M.act_delay <= world.time || M.icon_state == attackAnim || spin)
 		if(spin > 2)
 			if(world.cpu < 60)
-				. = ..(A, spin)
+				. = ..(M, A, spin)
 			else if(spin % 2)
 				power = 7
-				. = ..(A, spin)
+				. = ..(M, A, spin)
 				power = 3
 		if(spin < rand(5, 6))
-			spawn(1) if(src && usr) Fire(A, spin + 1)
+			spawn(1) if(src && M) Fire(M, A, spin + 1)
 
-/obj/item/equippable/weapon/proc/LoadAmmo()
+/obj/item/equippable/weapon/proc/LoadAmmo(mob/player/M)
 	var/obj/item/ammo/O
-	var/mob/player/M
-	O = locate(ammoType) in usr
-	M = usr
+	O = locate(ammoType) in M
 	if(O && !ammo)
 		ammo += min(O.amt, O.quantity)
 		if(O.quantity <= O.amt)
@@ -293,7 +287,7 @@
 /obj/item/equippable/weapon/verb/load()
 	set src in usr.client.screen
 	if(ammoType)
-		LoadAmmo()
+		LoadAmmo(usr)
 	else
 		usr << "Energy weapons need no ammo!"
 
