@@ -85,9 +85,6 @@
 		HUDBar(H)
 	Move(teamSpawns[team.name])
 	loc = teamSpawns[team.name]
-	/*if(head)
-		head.loc = teamSpawns[team.name]
-		UpdateChildren()*/
 	animate_movement = 1
 	icon_state = "run"
 	spawn(10) Regen()

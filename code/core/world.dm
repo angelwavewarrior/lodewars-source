@@ -23,19 +23,6 @@
 		if(istype(I, type) && I.planted)
 			return I
 
-/*/proc/IsHead(mob/M as mob)
-	. = null
-	if(istype(M, /mob) && M.master && M.master.head == M)
-		. = M.master
-	else if(!istype(M, /mob) || !M.master && !M.head)
-		. = M
-
-/proc/HeadForMob(mob/M as mob)
-	if(ismob(M) && M.head)
-		. = M.head
-	else
-		. = M*/
-
 /proc/Him(mob/M as mob)
 	if(M.client.gender == "female")
 		return "her"

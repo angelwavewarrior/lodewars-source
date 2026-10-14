@@ -53,39 +53,7 @@ mob/glide_size = 16
 		HUDUpdate("carry")
 
 /mob/player/Move()
-	//var/waterLogged
-	//var/water
-	//waterLogged = 0
-	//water = 0
 	if(shopping)
 		shopping = 0
 		DeShop()
 	. = ..()
-	/*if(act_delay < world.time)
-		. = ..()
-		if(.)
-			var/moveSpeed = speed
-			var/T = loc
-			if(istype(loc, /turf/water) && !vehicle && !T:Bridged())
-				if(istype(src, /mob/player/bolo))
-					moveSpeed -= 3
-				else
-					moveSpeed += swim
-					water = 1
-					if(swim < 0)
-						waterLogged = 2
-			if(speed != CalcStat("speed"))
-				moveSpeed = 0
-			speed_accum = speed_accum + (sqrt(moveSpeed) - round(sqrt(moveSpeed)))
-			act_delay = world.time + 8 - round(sqrt(moveSpeed)) + waterLogged
-			if(speed_accum >= 1)
-				speed_accum--
-				act_delay--
-			if(vehicle)
-				icon_state = "still"
-			else if(water && density)
-				if(icon_state != "swim") spawn(4) icon_state = "swim"
-			else if(icon_state != "run")
-				spawn(2) icon_state = "run"
-		else
-			return 0*/
