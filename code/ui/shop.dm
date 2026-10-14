@@ -139,28 +139,28 @@
 				if(istype(O, /obj/item/ammo))
 					V = O.value * O.quantity / O:amt
 				// Each buyer's share of a merged stack is paid as if sold on its own.
-				var/list/L = O.Buyers()
-				var/Q = O.quantity
-				for(var/K in L)
-					var/P = V * L[K] / Q
-					var/B = K ? locate(K) : null
-					if(B && B == M)
-						M:cash += round(P * 0.8)
-						M << "You sell \the [O.name] for $[round(P * 0.8)]."
+				var/list/counts = O.GetBuyerCounts()
+				var/stackSize = O.quantity
+				for(var/buyerTag in counts)
+					var/share = V * counts[buyerTag] / stackSize
+					var/mob/player/buyerMob = buyerTag ? locate(buyerTag) : null
+					if(buyerMob && buyerMob == M)
+						M:cash += round(share * 0.8)
+						M << "You sell \the [O.name] for $[round(share * 0.8)]."
 						M:HUDUpdate("cash", 5)
-					else if(!B)
-						M:cash += round(P * 0.4)
-						M << "You sell \the [O.name] for $[round(P * 0.4)]."
+					else if(!buyerMob)
+						M:cash += round(share * 0.4)
+						M << "You sell \the [O.name] for $[round(share * 0.4)]."
 						M:HUDUpdate("cash", 5)
-					else if(B:team == M:team)
-						B:cash += round(P * 0.8)
-						M << "You return your teammate [B:name]'s [O.name]."
-						B << "[M:name] returns your [O.name] to the shop for $[round(P * 0.8)]."
-						B:HUDUpdate("cash", 5)
+					else if(buyerMob.team == M:team)
+						buyerMob.cash += round(share * 0.8)
+						M << "You return your teammate [buyerMob.name]'s [O.name]."
+						buyerMob << "[M:name] returns your [O.name] to the shop for $[round(share * 0.8)]."
+						buyerMob.HUDUpdate("cash", 5)
 					else
-						M:cash += round(P * 0.4)
-						M << "You sell \the [O.name] for $[round(P * 0.4)]."
-						B:insurance += round(P * 0.4)
+						M:cash += round(share * 0.4)
+						M << "You sell \the [O.name] for $[round(share * 0.4)]."
+						buyerMob.insurance += round(share * 0.4)
 						M:HUDUpdate("cash", 5)
 				M:client:screen:Remove(O)
 				if(O in M:inventory)

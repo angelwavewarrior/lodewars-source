@@ -9,10 +9,12 @@
 	var/highlight
 	var/obj/item/vehicle/container
 	var/owner
+	// Who bought this item, as the buyer's tag, when every unit in the stack has the same buyer.
 	var/buyer
-	// Only on a stack merged from more than one buyer: buyer tag = count, "" for none.
-	// Units leave from the end, so the last picked up go first. buyer is null then.
-	var/list/buyers
+	// Set instead of buyer when a stack holds units from more than one buyer:
+	// buyer tag = how many units are theirs, with "" for units nobody bought.
+	// The newest buyer is last, and units leave from that end. buyer is null meanwhile.
+	var/list/buyerCounts
 	var/useAnim
 
 /obj/item/battery
@@ -72,7 +74,7 @@
 					var/O = new type
 					ItemCopy(O)
 					O:quantity = amount
-					O:SetBuyers(TakeBuyers(amount))
+					O:SetBuyerCounts(TakeBuyerCounts(amount))
 					O:Move(usr)
 					quantity -= amount
 				T = M.loc
@@ -117,7 +119,7 @@
 			var/O = new type(usr)
 			ItemCopy(O)
 			O:quantity = amount
-			O:SetBuyers(TakeBuyers(amount))
+			O:SetBuyerCounts(TakeBuyerCounts(amount))
 			O:density = 0
 			O:Move(usr.loc)
 			O:density = dense
@@ -216,50 +218,54 @@
 	O.invisibility = invisibility
 	O.buyer = buyer
 
-// Who bought how many of this stack, as buyer tag = count.
-/obj/item/proc/Buyers()
-	if(buyers)
-		return buyers.Copy()
+// How many units of this stack each buyer owns, as buyer tag = units. Always a new list.
+/obj/item/proc/GetBuyerCounts()
+	if(buyerCounts)
+		return buyerCounts.Copy()
 	return list("[buyer]" = quantity)
 
-/obj/item/proc/SetBuyers(list/L)
-	for(var/k in L.Copy())
-		if(L[k] <= 0)
-			L -= k
-	if(!L.len)
+// Stores counts on this stack: in buyer if one buyer is left, in buyerCounts otherwise.
+/obj/item/proc/SetBuyerCounts(list/counts)
+	for(var/buyerTag in counts.Copy())
+		if(counts[buyerTag] <= 0)
+			counts -= buyerTag
+	if(!counts.len)
 		return
-	if(L.len == 1)
-		buyers = null
-		buyer = L[1]
-		if(buyer == "")
-			buyer = null
+	if(counts.len == 1)
+		var/onlyBuyer = counts[1]
+		buyerCounts = null
+		buyer = onlyBuyer == "" ? null : onlyBuyer
 	else
-		buyers = L
+		buyerCounts = counts
 		buyer = null
 
-// Takes n units off this stack's buyers, last added first, and returns them.
-// Call it before lowering quantity.
-/obj/item/proc/TakeBuyers(n)
-	var/list/L = Buyers()
-	var/list/T = list()
-	for(var/i = L.len, i >= 1 && n > 0, i--)
-		var/k = L[i]
-		var/c = min(n, L[k])
-		T.Insert(1, k)
-		T[k] = c
-		L[k] -= c
-		n -= c
-	SetBuyers(L)
-	return T
+// Takes units off this stack's buyer counts, newest buyer first, and returns whose they were.
+// The caller lowers quantity itself.
+/obj/item/proc/TakeBuyerCounts(units)
+	if(!buyerCounts)
+		return list("[buyer]" = units)
+	var/list/remaining = buyerCounts.Copy()
+	var/list/taken = list()
+	for(var/i = remaining.len, i >= 1 && units > 0, i--)
+		var/buyerTag = remaining[i]
+		var/fromThisBuyer = min(units, remaining[buyerTag])
+		taken.Insert(1, buyerTag)
+		taken[buyerTag] = fromThisBuyer
+		remaining[buyerTag] -= fromThisBuyer
+		units -= fromThisBuyer
+	SetBuyerCounts(remaining)
+	return taken
 
-// Adds a merged stack's buyers to this one. Call it before raising quantity.
-/obj/item/proc/AddBuyers(list/T)
-	var/list/L = Buyers()
-	for(var/k in T)
-		var/c = L[k] || 0
-		L -= k
-		L[k] = c + T[k]
-	SetBuyers(L)
+// Adds the counts of a stack merging into this one, as the newest. Call it before raising quantity,
+// since a one-buyer stack's count is its quantity.
+/obj/item/proc/AddBuyerCounts(list/added)
+	var/list/counts = GetBuyerCounts()
+	for(var/buyerTag in added)
+		var/alreadyHeld = counts[buyerTag] || 0
+		// Removed and added back, so this buyer becomes the newest.
+		counts -= buyerTag
+		counts[buyerTag] = alreadyHeld + added[buyerTag]
+	SetBuyerCounts(counts)
 
 /obj/item/proc/Plant()
 	planted = 1
@@ -332,11 +338,11 @@
 /obj/item/proc/Describe(M as mob)
 	M << "<b>[Proper(name)]</b>"
 	M << "weight: [weight]   value: $[value]"
-	if(buyers)
-		var/list/S = list()
-		for(var/k in buyers)
-			S += "[k ? k : "nobody"] ([buyers[k]])"
-		M << "<i>Belongs to [jointext(S, ", ")]</i>"
+	if(buyerCounts)
+		var/list/owners = list()
+		for(var/buyerTag in buyerCounts)
+			owners += "[buyerTag ? buyerTag : "nobody"] ([buyerCounts[buyerTag]])"
+		M << "<i>Belongs to [jointext(owners, ", ")]</i>"
 	else if(buyer) M << "<i>Belongs to [buyer]</i>"
 	M << desc
 

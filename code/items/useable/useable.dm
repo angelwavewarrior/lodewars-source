@@ -88,7 +88,7 @@
 	M = usr
 	if(istype(M, /mob/player))
 		if(quantity > 1)
-			TakeBuyers(1)
+			TakeBuyerCounts(1)
 			quantity--
 			M.encumberance -= CalcWeight(1)
 			UpdateQuantity()

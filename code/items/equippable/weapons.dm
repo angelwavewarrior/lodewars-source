@@ -274,7 +274,7 @@
 			O.loc = null
 			del(O)
 		else
-			O.TakeBuyers(O.amt)
+			O.TakeBuyerCounts(O.amt)
 			O.quantity -= O.amt
 			O.UpdateQuantity()
 		UpdateQuantity()

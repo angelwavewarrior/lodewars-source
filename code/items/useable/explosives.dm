@@ -75,7 +75,7 @@
 			P.user = usr
 			P.Plant()
 			P.Arm()
-			TakeBuyers(1)
+			TakeBuyerCounts(1)
 			quantity--
 			UpdateQuantity()
 			M:HUDUpdate("carry")
