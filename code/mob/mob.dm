@@ -66,7 +66,7 @@
 /mob/proc/Items()
 	var/list/items
 	items = list()
-	for(var/obj/item/O in orange(1))
+	for(var/obj/item/O in Around(src, 1))
 		if(isturf(O.loc))
 			items.Add(O)
 	. = items
