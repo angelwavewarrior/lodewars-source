@@ -183,7 +183,7 @@
 				view(5) << "[usr.name] repairs [I.name]."
 				I.health += I.max_health / 4
 				I.health = min(I.health, I.max_health)
-		else if(V && V.driver != src)
+		else if(V && V.driver != M)
 			if(rand(1, 30) < M.dexterity + M.intelligence)
 				if(V.health < V.max_health && V.max_health)
 					view(5) << "[usr.name] repairs [V.name]."
