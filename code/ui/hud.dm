@@ -229,7 +229,7 @@
 		del(HUD[Field])
 	HUD[Field] = H
 	client.screen.Add(H)
-	H.icon = file("[Field]bar.dmi")
+	H.icon = barIcons[Field]
 	H.icon_state = num2text(min(32, val))
 	H.layer = 15
 	Hx = text2num(copytext(HUDCoords[Field], 1, findtext(HUDCoords[Field], ",")))
@@ -240,7 +240,7 @@
 		U = new()
 		val -= 32
 		add++
-		U.icon = file("[Field]bar.dmi")
+		U.icon = barIcons[Field]
 		U.icon_state = num2text(min(32, val))
 		U.layer = 15
 		U.pixel_y = add * 32
@@ -268,7 +268,7 @@
 	H.name = "team"
 	for(var/i = 2, i <= 3, i++)
 		U = new()
-		U.icon = file("teambar[i].dmi")
+		U.icon = teamBarIcons[i]
 		U.icon_state = team.name
 		U.layer = 15
 		U.pixel_x = (i - 1) * -32

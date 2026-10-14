@@ -11,6 +11,9 @@ world
 	hub = "Leftley.Lode Wars"
 
 var/image/eFence = image('barrier.dmi', null, "top", 7)
+// Compile-time references: file() at runtime looks beside the .dmb, not in assets.
+var/list/barIcons = list("health" = 'healthbar.dmi', "energy" = 'energybar.dmi', "radiation" = 'radiationbar.dmi')
+var/list/teamBarIcons = list('teambar1.dmi', 'teambar2.dmi', 'teambar3.dmi')
 var/list/boloIcons = list('bolo_00.dmi', 'bolo_01.dmi', 'bolo_10.dmi', 'bolo_11.dmi', 'bwater_00.dmi', 'bwater_10.dmi', 'bwater_01.dmi', 'bwater_11.dmi')
 var/list/filter = list()
 var/list/observers = list()
