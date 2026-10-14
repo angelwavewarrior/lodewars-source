@@ -348,7 +348,7 @@
 /mob/player/Enter(O as obj)
 	if(istype(O, /obj/item))
 		if(encumberance + O:weight > carry)
-			usr << "You can't carry \the [O:name], it's too heavy!"
+			src << "You can't carry \the [O:name], it's too heavy!"
 			. = 0
 		else
 			. = 1
@@ -422,12 +422,11 @@
 	if(team)
 		team.members.Remove(src)
 		team.UpdateScore()
-	usr = src
 	for(var/obj/item/O in contents)
 		stop = O.quantity
 		O.verbs.Add(/obj/item/verb/drop)
 		for(var/i = 1, i <= stop, i++)
-			if(O) O.drop()
+			if(O) O.DropFrom(src)
 	var/obj/item/O
 	for(var/H in HUD)
 		O = HUD[H]

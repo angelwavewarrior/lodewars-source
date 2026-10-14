@@ -188,8 +188,7 @@
 	if(activeItem)
 		if(istype(activeItem, /obj/item/useable))
 			var/U = activeItem
-			usr = src
-			U:deselect()
+			U:DeselectFor(src)
 		activeItem = null
 		client.screen.Remove(activeItem)
 	encumberance = 0

@@ -131,7 +131,7 @@
 	if(O && !istype(O, /obj/item/ore))
 		if(O.loc == usr)
 			var/M = usr
-			O = O.drop()
+			O = O.DropFrom(usr)
 			if(O)
 				O.loc = null
 				// Ammo value is per pack of amt rounds.

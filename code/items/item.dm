@@ -90,10 +90,12 @@
 
 /obj/item/verb/drop()
 	set src in usr
-	var/mob/player/M
+	return DropFrom(usr)
+
+// M is who holds this. Scatter, Logout and unequipping drop from a holder that never ran a verb.
+/obj/item/proc/DropFrom(mob/player/M)
 	var/amount
 	var/dense
-	M = loc
 	amount = 1
 	dense = density
 	if(istype(src, /obj/item/ammo))
@@ -104,24 +106,24 @@
 		if(E:equipped)
 			if(!E:DoUnequip(M))
 				return
-	if(M && istype(M, /mob/player) && M.loc && usr)
+	if(M && istype(M, /mob/player) && M.loc)
 		if(M.activeItem == src)
 			M.activeItem = null
 		if(quantity <= amount || !stackable)
 			density = 0
-			Move(usr.loc)
+			Move(M.loc)
 			density = dense
 			. = src
 			Dropped()
 			if(M.client && map)
 				M.HUDInventory()
 		else
-			var/O = new type(usr)
+			var/O = new type(M)
 			ItemCopy(O)
 			O:quantity = amount
 			O:SetBuyerCounts(TakeBuyerCounts(amount))
 			O:density = 0
-			O:Move(usr.loc)
+			O:Move(M.loc)
 			O:density = dense
 			quantity -= amount
 			. = O
@@ -132,24 +134,21 @@
 	set src in world
 	DblClick()
 
-/obj/item/proc/attack()
-	set src in view(1)
-	var/mob/player/M
-	M = usr
+/obj/item/proc/attack(mob/player/M)
 	if(damageable)
 		M.Attack(src)
 
 /obj/item/proc/Scatter(loc, Q=quantity)
 	var/list/openTurfs
 	var/O
-	usr = loc
+	var/holder = loc
 	loc = GetTurf(loc)
 	openTurfs = list(loc)
 	for(var/D in list(1, 2, 4, 8, 5, 6, 9, 10))
 		if(CanReach(loc, get_step(loc, D)))
 			openTurfs.Add(get_step(loc, D))
 	for(var/i = Q, i > 0, i--)
-		O = drop()
+		O = DropFrom(holder)
 		if(openTurfs.len && O)
 			O:Move(pick(openTurfs))
 

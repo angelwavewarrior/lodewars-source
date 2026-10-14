@@ -25,9 +25,9 @@
 	if(M.activeItem)
 		var/O = M.activeItem
 		if(istype(O, /obj/item/equippable))
-			O:unequip()
+			O:UnequipBy(M)
 		else
-			M.activeItem.deselect()
+			M.activeItem.DeselectFor(M)
 	M.activeItem = src
 	M << "Selected [name]. Click on a valid target to use."
 	verbs.Add(/obj/item/useable/proc/Use)
@@ -36,8 +36,9 @@
 
 /obj/item/useable/verb/deselect()
 	set src in usr
-	var/mob/player/M
-	M = usr
+	DeselectFor(usr)
+
+/obj/item/useable/proc/DeselectFor(mob/player/M)
 	if(src == M.activeItem)
 		M.activeItem = null
 		M.HUDInventory()

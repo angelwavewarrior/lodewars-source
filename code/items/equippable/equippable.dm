@@ -26,8 +26,11 @@
 
 /obj/item/equippable/verb/unequip()
 	set src in usr
-	if(DoUnequip(usr))
-		usr << "You unequip \the [name]."
+	return UnequipBy(usr)
+
+/obj/item/equippable/proc/UnequipBy(mob/player/M)
+	if(DoUnequip(M))
+		M << "You unequip \the [name]."
 		. = 1
 
 /obj/item/equippable/proc/DoEquip(mob/player/M as mob)
@@ -39,11 +42,11 @@
 		for(var/S in slots)
 			if(S)
 				E = M.equipment[S]
-				if(E && (E == src || !E.unequip()))
+				if(E && (E == src || !E.UnequipBy(M)))
 					return
 		if("held" in slots)
 			if(M.activeItem)
-				M.activeItem.deselect()
+				M.activeItem.DeselectFor(M)
 		M.act_delay += 35 - M.dexterity - M.speed
 		suffix = "(equipped)"
 		equipped = 1
@@ -101,7 +104,7 @@
 					if(O.value && O.weight && O.value / O.weight < lowVal && O != src)
 						lowVal = O.value / O.weight
 						I = O
-				if(!I || !I.drop())
+				if(!I || !I.DropFrom(M))
 					break
 		else if("swim" in adds)
 			M.Move(M.loc)

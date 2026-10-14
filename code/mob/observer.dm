@@ -78,7 +78,7 @@
 		admins.Add(src)
 		verbs.Add(typesof(/mob/admin/verb))
 	else if(playerLimit && players.len >= playerLimit)
-		usr << "Sorry, this server is full ([playerLimit] players max)."
+		src << "Sorry, this server is full ([playerLimit] players max)."
 		sleep(1)
 		del(client)
 		del(src)
