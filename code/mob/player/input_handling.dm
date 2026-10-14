@@ -1,12 +1,14 @@
-/mob/player/var/tmp/keys_pressed
+// On every mob, since the skin's Any macro sends these from any mob; only players act on them.
+// On players alone, an observer's every key press gave "unrecognized verb".
+/mob/var/tmp/keys_pressed
 
-/mob/player/verb/KeyDown(button as text)
+/mob/verb/KeyDown(button as text)
 	set hidden = 1
 	set instant = 1
 	keys_pressed ||= list()
 	keys_pressed[button] = 1
 
-/mob/player/verb/KeyUp(button as text)
+/mob/verb/KeyUp(button as text)
 	set hidden = 1
 	set instant = 1
 	if(!keys_pressed) return
