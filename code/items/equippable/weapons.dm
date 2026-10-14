@@ -199,7 +199,7 @@
 			return
 		else if(istype(T, /turf/base) && istype(GetTurf(src), /turf/base))
 			return
-		else if(istype(GetTurf(src), /turf/water) && !M.vehicle && !U.Bridged())
+		else if(istype(GetTurf(src), /turf/water) && !M.vehicle && !U.Bridged() && !istype(M, /mob/player/bolo))
 			water = 1
 			if(attackAnim != "pistol")
 				usr << "You can't fire that from water!"

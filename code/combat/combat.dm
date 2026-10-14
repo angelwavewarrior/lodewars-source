@@ -45,8 +45,10 @@
 		var/dmg = round(rand(attack / 2 + strength / 10, attack + strength / 5))
 		if(istype(loc, /turf/water))
 			water = 1
-		if(water && !istype(GetTurf(M), /turf/water) || !water && istype(GetTurf(M), /turf/water))
-			return
+		// No hitting between water and land. A wading bolo stands in both, so it can hit and be hit either way.
+		if(!istype(src, /mob/player/bolo) && !istype(MapHolder(M), /mob/player/bolo))
+			if(water && !istype(GetTurf(M), /turf/water) || !water && istype(GetTurf(M), /turf/water))
+				return
 		if("held" in equipment)
 			var/E = equipment["held"]
 			if("attack" in E:adds)
