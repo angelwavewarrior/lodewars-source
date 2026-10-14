@@ -250,6 +250,8 @@
 		var/obj/item/O
 		for(var/obj/shop/S in shoppingCart)
 			O = new S.itemType
+			// Before the Move, so a purchase merged into a carried stack keeps its own buyer.
+			O.buyer = tag
 			if(!istype(O, /obj/item/vehicle) || istype(O, /obj/item/vehicle/cart) || istype(O, /obj/item/vehicle/raft))
 				O.loc = loc
 				if(O.weight + Encumberance() <= carry)
@@ -263,8 +265,6 @@
 				else
 					O.loc = team.loadingZone
 					O.Dropped()
-			if(O)
-				O.buyer = tag
 			del(S)
 		shoppingCart.Cut()
 	for(var/obj/shop/S in team.totalShopList)
