@@ -109,12 +109,12 @@
 					startSearch += length(filter[F])
 	if(client.mute)
 		recievers = list(src)
-	usr.chat_time = max(usr.chat_time, world.time)
-	if(usr.team)
-		teamImg = "\icon[usr.team.comm]"
+	chat_time = max(chat_time, world.time)
+	if(team)
+		teamImg = "\icon[team.comm]"
 	// Search from the start. startSearch is left over from the filter loops.
 	while(findtext(chat, "\n"))
-		usr.chat_time += 6
+		chat_time += 6
 		chat = "[copytext(chat, 1, findtext(chat, "\n"))][copytext(chat, findtext(chat, "\n") + 1, 0)]"
 	if(length(chat) > 250)
 		var/len
@@ -136,25 +136,25 @@
 									if(!len)
 										len = 250
 		if(length(chat) > len + 1)
-			spawn(1) usr.Chat(copytext(chat, len + 1, 0), recievers, tags)
+			spawn(1) Chat(copytext(chat, len + 1, 0), recievers, tags)
 		chat = copytext(chat, 1, len + 1)
-	if(usr.chat_time > world.time + 85)
-		usr << "Booted for spamming."
-		recievers - usr << "[usr] was booted for spam."
+	if(chat_time > world.time + 85)
+		src << "Booted for spamming."
+		recievers - src << "[src] was booted for spam."
 		// Logout saves and then deletes the mob.
-		del(usr.client)
+		del(client)
 	else
 		chat = html_encode(chat)
-		spawn(max(0, usr.chat_time - world.time))
-			recievers << "[teamImg]<b>[usr.name]</b>\..."
+		spawn(max(0, chat_time - world.time))
+			recievers << "[teamImg]<b>[name]</b>\..."
 			if(tags)
 				recievers << "<[tags]>: [chat]</[tags]>"
 			else
 				recievers << ": [chat]"
-		if(usr.chat_time > world.time + 10)
-			usr.chat_time += 30
+		if(chat_time > world.time + 10)
+			chat_time += 30
 		else
-			usr.chat_time += 15
+			chat_time += 15
 
 /mob/Stat()
 	if(client && client.show_verb_panel)
