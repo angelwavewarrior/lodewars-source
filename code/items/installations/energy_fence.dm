@@ -47,16 +47,16 @@
 			M << "Energy fence dismantled!"
 		else
 			M << "Energy fence destroyed!"
-			Die()
+			Die(M)
 	else
 		for(var/D in dirs)
 			Kill(D)
 		dirs.Cut()
 		M << "Energy fence depowered!"
 
-/obj/item/useable/installation/energy_fence/Die()
+/obj/item/useable/installation/energy_fence/Die(attacker)
 	damageable = 0
-	Explosion(loc, 10, 0, usr)
+	Explosion(loc, 10, 0, attacker)
 	for(var/D in dirs)
 		Kill(D)
 	dirs.Cut()

@@ -17,7 +17,7 @@
 		Unplant()
 		team = M.team
 		owner = M
-		Plant()
+		Plant(M)
 		M << "Teleport console subverted."
 	else
 		M << "Teleport console destroyed!"
@@ -38,15 +38,18 @@
 	verbs.Remove(/obj/item/useable/installation/teleconsole/proc/recharge)
 	. = ..()
 
-/obj/item/useable/installation/teleconsole/UsedBy()
+/obj/item/useable/installation/teleconsole/UsedBy(mob/player/M)
 	if(!energy)
-		recharge()
+		RechargeBy(M)
 	else
-		teleport(input("teleport \[destination\]") in teleports[usr.team.name])
+		TeleportBy(M, input(M, "teleport \[destination\]") in teleports[M.team.name])
 
 /obj/item/useable/installation/teleconsole/proc/teleport(destination in teleports[usr.team.name])
 	set src in view(1)
-	if(istype(usr, /mob/player) && usr.team == team)
+	return TeleportBy(usr, destination)
+
+/obj/item/useable/installation/teleconsole/proc/TeleportBy(mob/M, destination)
+	if(istype(M, /mob/player) && M.team == team)
 		var/obj/item/useable/installation/telepad/P = locate() in view(1, src)
 		var/drain = 2
 		if(P)
@@ -62,27 +65,28 @@
 						if(!istype(A, /obj/item/ammo))
 							drain = O:weight
 					if(energy >= drain)
-						. = A.Teleport(GetTurf(teleports[usr.team.name][destination]))
+						. = A.Teleport(GetTurf(teleports[M.team.name][destination]))
 						if(!.)
-							usr << "<b>*CRITICAL ERROR: Destination teleport blocked! Aborting teleport... rerouting...*</b>"
+							M << "<b>*CRITICAL ERROR: Destination teleport blocked! Aborting teleport... rerouting...*</b>"
 							drain = round(drain / 2, 1)
 						energy -= drain
 					else
-						usr << "<b>*Error: teleport console unit out of power*</b>"
+						M << "<b>*Error: teleport console unit out of power*</b>"
 						break
 
 /obj/item/useable/installation/teleconsole/proc/recharge()
 	set src in view(1)
-	var/mob/player/M
-	M = usr
-	if(istype(M, /mob/player) && usr.team == team)
-		if(usr.energy)
-			var/draw = min(max_energy - energy, usr.energy)
-			usr.energy -= draw
+	RechargeBy(usr)
+
+/obj/item/useable/installation/teleconsole/proc/RechargeBy(mob/player/M)
+	if(istype(M, /mob/player) && M.team == team)
+		if(M.energy)
+			var/draw = min(max_energy - energy, M.energy)
+			M.energy -= draw
 			energy += draw
 			if(draw)
 				M.HUDBar("energy")
 			else
-				usr << "Teleconsole unit is already at 100% power."
+				M << "Teleconsole unit is already at 100% power."
 		else
-			usr << "No power left to charge with!"
+			M << "No power left to charge with!"

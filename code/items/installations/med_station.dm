@@ -34,8 +34,8 @@
 	overlays.Cut()
 	. = ..()
 
-/obj/item/useable/installation/med_station/UsedBy()
-	heal()
+/obj/item/useable/installation/med_station/UsedBy(mob/player/M)
+	HealBy(M)
 
 /obj/item/useable/installation/med_station/proc/Synth(loop)
 	if(!planted || loop != tick_loop) return
@@ -44,13 +44,14 @@
 
 /obj/item/useable/installation/med_station/proc/heal()
 	set src in view(1)
-	var/mob/player/M
-	M = usr
-	if(istype(usr, /mob/player) && usr.team == team)
-		if(supplies && usr.health < usr.max_health - 1)
-			var/draw = min(round((usr.max_health - usr.health) / 2), supplies)
-			usr.health += draw * 2
+	HealBy(usr)
+
+/obj/item/useable/installation/med_station/proc/HealBy(mob/player/M)
+	if(istype(M, /mob/player) && M.team == team)
+		if(supplies && M.health < M.max_health - 1)
+			var/draw = min(round((M.max_health - M.health) / 2), supplies)
+			M.health += draw * 2
 			supplies -= draw
 			M.HUDBar("health")
-			range(5) << "[M.name] uses \the [name]."
+			range(5, M) << "[M.name] uses \the [name]."
 			M << "Healed [draw * 2] health."

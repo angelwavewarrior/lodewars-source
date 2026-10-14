@@ -34,7 +34,7 @@
 			Unplant()
 			team = M.team
 			owner = M
-			Plant()
+			Plant(M)
 			M << "Telepad subverted."
 	else
 		M << "Telepoad destroyed!"

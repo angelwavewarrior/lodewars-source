@@ -31,28 +31,34 @@
 		M << "Microrefinery destroyed!"
 		Die()
 
-/obj/item/useable/installation/microrefinery/UsedBy()
+/obj/item/useable/installation/microrefinery/UsedBy(mob/player/M)
 	if(contents.len)
-		activate()
+		ActivateBy(M)
 	else
-		for(var/obj/item/ore/O in usr)
+		for(var/obj/item/ore/O in M)
 			if(O.grade != 3)
-				insert(O)
+				InsertBy(M, O)
 
 /obj/item/useable/installation/microrefinery/proc/insert(obj/item/O as obj)
 	set src in view(1)
-	if(istype(usr, /mob/player) && O && istype(O, /obj/item/ore))
-		if(usr.team == team)
-			if(O.loc != usr)
-				usr << "Pick the ore up first."
+	InsertBy(usr, O)
+
+/obj/item/useable/installation/microrefinery/proc/InsertBy(mob/M, obj/item/O)
+	if(istype(M, /mob/player) && O && istype(O, /obj/item/ore))
+		if(M.team == team)
+			if(O.loc != M)
+				M << "Pick the ore up first."
 				return
 			O.Move(src)
 
 /obj/item/useable/installation/microrefinery/proc/activate()
 	set src in view(126)
+	ActivateBy(usr)
+
+/obj/item/useable/installation/microrefinery/proc/ActivateBy(mob/M)
 	var/totalGrade
 	totalGrade = list()
-	if(istype(usr, /mob/player) && usr.team == team)
+	if(istype(M, /mob/player) && M.team == team)
 		if(contents.len)
 			var/obj/item/ore/O
 			for(O in src)
@@ -65,19 +71,19 @@
 				while(totalGrade[G] > 0)
 					if(totalGrade[G] >= 3)
 						oreType = "/obj/item/ore/[G]/rich"
-						O = new oreType(usr.loc)
+						O = new oreType(M.loc)
 						O.value *= 3
 						amount = min(round(totalGrade[G] / 3), 99)
 						totalGrade[G] -= amount * 3
 					else if(totalGrade[G] == 2)
 						oreType = "/obj/item/ore/[G]/medium"
-						O = new oreType(usr.loc)
+						O = new oreType(M.loc)
 						O.value *= 2
 						amount = 1
 						totalGrade[G] -= 2
 					else
 						oreType = "/obj/item/ore/[G]/poor"
-						O = new oreType(usr.loc)
+						O = new oreType(M.loc)
 						amount = 1
 						totalGrade[G] = 0
 					O.quantity = amount
@@ -85,5 +91,5 @@
 					O.name = "[O.name] [O.oreName] ore"
 					O.invisibility = 0
 		else
-			usr << "<b>*Error! Microrefinery unit is empty!*</b>"
-			usr << "Please insert poor or medium grade ore and retry."
+			M << "<b>*Error! Microrefinery unit is empty!*</b>"
+			M << "Please insert poor or medium grade ore and retry."

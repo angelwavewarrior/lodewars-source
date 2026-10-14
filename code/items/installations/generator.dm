@@ -39,8 +39,8 @@
 	overlays.Cut()
 	. = ..()
 
-/obj/item/useable/installation/generator/UsedBy()
-	withdraw()
+/obj/item/useable/installation/generator/UsedBy(mob/player/M)
+	WithdrawBy(M)
 
 /obj/item/useable/installation/generator/proc/Power(loop)
 	if(!planted || loop != tick_loop) return
@@ -50,11 +50,12 @@
 
 /obj/item/useable/installation/generator/proc/withdraw()
 	set src in view(1)
-	var/mob/player/M
-	M = usr
-	if(istype(usr, /mob/player) && usr.team == team)
-		if(energy && usr.energy < usr.max_energy)
-			var/draw = min(usr.max_energy - usr.energy, energy)
-			usr.energy += draw
+	WithdrawBy(usr)
+
+/obj/item/useable/installation/generator/proc/WithdrawBy(mob/player/M)
+	if(istype(M, /mob/player) && M.team == team)
+		if(energy && M.energy < M.max_energy)
+			var/draw = min(M.max_energy - M.energy, energy)
+			M.energy += draw
 			energy -= draw
 			M.HUDBar("energy")

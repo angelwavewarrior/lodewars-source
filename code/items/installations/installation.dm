@@ -9,11 +9,11 @@
 	var/tmp/tick_loop = 0
 	useAnim = "action"
 
-/obj/item/useable/installation/Plant()
+/obj/item/useable/installation/Plant(mob/M)
 	density = isDense
 	damageable = isDamageable
 	health = max_health
-	buyer = usr.tag
+	buyer = M.tag
 	if(dismantleable)
 		verbs.Add(/obj/item/useable/installation/proc/dismantle)
 	. = ..()
@@ -38,13 +38,13 @@
 			team = M.team
 			owner = M
 			Move(T)
-			Plant()
+			Plant(M)
 			. = src
 		else
 			I = new type(T)
 			I.team = M.team
 			I.owner = M
-			I.Plant()
+			I.Plant(M)
 			TakeBuyerCounts(1)
 			quantity--
 			UpdateQuantity()
@@ -57,12 +57,15 @@
 	M << "Ooops!"
 	M.TakeDamage(7, 0.8, 0.5, M, "omni-tool")
 
-/obj/item/useable/installation/proc/UsedBy(M as mob)
+/obj/item/useable/installation/proc/UsedBy(mob/player/M)
 
 /obj/item/useable/installation/proc/dismantle()
 	set src in oview(1)
-	if(usr.tag == buyer)
+	DismantleBy(usr)
+
+/obj/item/useable/installation/proc/DismantleBy(mob/M)
+	if(M.tag == buyer)
 		Unplant()
 		verbs.Remove(/obj/item/useable/installation/proc/dismantle)
 	else
-		usr << "Only the owner can dismantle that installation."
+		M << "Only the owner can dismantle that installation."

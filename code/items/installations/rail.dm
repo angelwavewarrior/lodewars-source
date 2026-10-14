@@ -7,12 +7,12 @@
 	value = 35
 	weight = 0.5
 
-/obj/item/useable/installation/rail/Plant()
+/obj/item/useable/installation/rail/Plant(mob/M)
 	. = ..()
 	icon = 'rail.dmi'
 	icon_state = "line"
 	layer = TURF_LAYER
-	buyer = usr.tag
+	buyer = M.tag
 	Connect()
 
 /obj/item/useable/installation/rail/proc/AddHub()

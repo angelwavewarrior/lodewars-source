@@ -8,11 +8,11 @@
 	weight = 1
 	aquatic = 1
 
-/obj/item/useable/installation/bridge/Plant()
+/obj/item/useable/installation/bridge/Plant(mob/M)
 	. = ..()
 	icon = 'bridge.dmi'
 	layer = TURF_LAYER
-	buyer = usr.tag
+	buyer = M.tag
 	loc.layer = TURF_LAYER
 	Connect()
 
