@@ -96,7 +96,7 @@
 
 /turf/base/bin/Click()
 	if(TileDist(usr, src) <= 1)
-		deposit()
+		DepositBy(usr)
 	else
 		..()
 
@@ -128,10 +128,11 @@
 
 /turf/base/bin/verb/deposit()
 	set src in oview(1)
+	DepositBy(usr)
+
+/turf/base/bin/proc/DepositBy(mob/player/M)
 	var/obj/item/ore/O
-	var/mob/player/M
-	O = locate() in usr
-	M = usr
+	O = locate() in M
 	if(M && istype(M, /mob/player) && M.team && M.team == team)
 		var/R
 		while(O)
@@ -153,7 +154,7 @@
 			O.loc = null
 			M.inventory.Remove(O)
 			del(O)
-			O = locate() in usr
+			O = locate() in M
 		M.HUDUpdate("carry")
 		team.UpdateScore()
 

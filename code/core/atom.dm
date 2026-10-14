@@ -82,4 +82,4 @@
 							M.Attack(V)
 					else
 						if(M.mode == "default" && TileDist(V, M) <= 1)
-							V.board()
+							V.BoardBy(M)

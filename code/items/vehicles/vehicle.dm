@@ -65,34 +65,40 @@
 /obj/item/vehicle/proc/board()
 	set desc = "Hop into a vehicle and begin driving."
 	set src in oview(1)
-	if(CanBoard(usr))
-		Board(usr)
+	BoardBy(usr)
+
+/obj/item/vehicle/proc/BoardBy(mob/player/M)
+	if(CanBoard(M))
+		Board(M)
 
 /obj/item/vehicle/proc/exit()
 	set desc = "Exits a vehicle."
 	set src in oview(0)
-	var/mob/player/M
+	ExitBy(usr)
+
+/obj/item/vehicle/proc/ExitBy(mob/player/M)
 	var/turf/T
-	M = usr
 	T = GetTurf(src)
-	if(usr == driver)
+	if(M == driver)
 		if(istype(GetTurf(src), /turf/water) && !M.swim && !T.Bridged())
 			for(var/D in list(1, 2, 4, 8))
 				T = get_step(loc, D)
 				if((!istype(T, /turf/water) || T.Bridged()) && CanReach(M, T))
-					Unload(usr)
+					Unload(M)
 					break
 		else
-			Unload(usr)
+			Unload(M)
 
 /obj/item/vehicle/proc/deposit()
 	set desc = "Deposits a load of ore into a vehicle container."
 	set src in oview(1)
-	if(!locate(/obj/item/ore) in usr)
-		usr << "You have no ore to deposit!"
+	DepositBy(usr)
+
+/obj/item/vehicle/proc/DepositBy(mob/player/M)
+	if(!locate(/obj/item/ore) in M)
+		M << "You have no ore to deposit!"
 	else
-		var/obj/item/ore/O = locate() in usr
-		var/M = usr
+		var/obj/item/ore/O = locate() in M
 		var/obj/item/R
 		while(O && carried.len < capacity)
 			while(O.quantity > 0 && carried.len < capacity)
@@ -106,35 +112,36 @@
 				carried.Add(R)
 				O.quantity--
 			if(!O.quantity)
-				O.Move(usr.loc)
+				O.Move(M.loc)
 				O.loc = null
 				del(O)
-			O = locate() in usr
-		M:Encumberance()
+			O = locate() in M
+		M.Encumberance()
 
 /obj/item/vehicle/proc/dump()
 	set desc = "Empties a vehicle of its contents."
 	set src in view(1)
+	DumpBy(usr)
+
+/obj/item/vehicle/proc/DumpBy(mob/player/M)
 	var/turf/base/bin/B
 	var/list/ores
-	var/mob/player/M
-	B = locate() in Around(usr, 1)
+	B = locate() in Around(M, 1)
 	ores = list()
-	M = usr
-	if(!istype(usr, /mob/player))
+	if(!istype(M, /mob/player))
 		return
 	for(var/obj/item/ore/O in carried)
 		carried.Remove(O)
 		O.container = null
-		O.loc = usr
+		O.loc = M
 		ores.Add(O)
 	if(ores.len)
-		if(B && B.team == usr.team)
-			B.deposit()
+		if(B && B.team == M.team)
+			B.DepositBy(M)
 		else
 			var/turf/T = M.loc
 			for(var/D in list(1, 2, 4, 8, 5, 6, 9, 10))
-				if(CanReach(usr, get_step(loc, D)))
+				if(CanReach(M, get_step(loc, D)))
 					T = get_step(loc, D)
 					break
 			for(var/obj/item/ore/O in ores)
