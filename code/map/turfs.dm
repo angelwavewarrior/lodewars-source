@@ -55,7 +55,8 @@
 	if(!istype(M, /mob/player))
 		. = ..()
 	else
-		if(M.swim || M.vehicle || Bridged() || !M.density)
+		// Bolos wade. The old four-part bolo got in by being non-dense; the single-mob one is dense.
+		if(M.swim || M.vehicle || Bridged() || !M.density || istype(M, /mob/player/bolo))
 			. = ..()
 		else
 			. = 0
@@ -67,7 +68,7 @@
 	B = locate() in src
 	if(!Bridged())
 		if(istype(M, /mob/player))
-			if(!M.swim && !M.vehicle && M.density)
+			if(!M.swim && !M.vehicle && M.density && !istype(M, /mob/player/bolo))
 				M.Die(null, "water", 0)
 		if(locate(/obj/item) in src)
 			if(!("submerged" in overlays))
