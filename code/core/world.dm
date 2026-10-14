@@ -15,9 +15,7 @@
 		return O
 
 /proc/GetMob(mob/M as mob)
-	. = M
-	if(istype(M, /mob) && M.master)
-		. = M.master
+	return M
 
 // A planted installation of that type on T. locate() can return an unplanted one lying there.
 /proc/LocatePlanted(T, type)
@@ -66,10 +64,3 @@
 	else
 		. = 0
 	del(O)
-
-/proc/GetMultiDist(mob/A as mob, B as mob|obj|turf|area)
-	var/minDist
-	minDist = get_dist(A, B)
-	for(var/mob/C in A.children)
-		minDist = min(minDist, get_dist(C, B))
-	return minDist

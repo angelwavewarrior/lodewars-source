@@ -51,7 +51,6 @@
 
 /mob/player/proc/JoinTeam(datum/T)
 	var/the
-	var/H
 	var/obj/O
 	the = T.type != /team/black && T.type != /team/white && T.type != /team/blue
 	if(the)
@@ -63,15 +62,12 @@
 	team.allMembers.Add(tag)
 	team.UpdateScore()
 	HUDTeam()
-	H = src
 	O = new()
-	if(head)
-		H = head
 	O.icon = 'team_badge.dmi'
 	O.icon_state = team.name
 	O.pixel_y = (size - 1) * 32
 	O.layer = 5
-	H:overlays:Add(O)
+	overlays.Add(O)
 	del(O)
 	signals.Add(src)
 	signal = "[name]"
@@ -442,10 +438,6 @@
 	HUD.Cut()
 	loc = null
 	key = null
-	for(var/mob/M in children)
-		M.loc = null
-		children.Remove(M)
-		del(M)
 	if(vehicle)
 		vehicle.driver = null
 		vehicle = null

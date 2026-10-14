@@ -1,11 +1,5 @@
 /mob
 	var/shopping = 0
-	var/mob/master
-	var/atom/movable/head
-	var/baseIcon
-	var/list/children
-	var/xOffset
-	var/yOffset
 	var/chat_time
 	var/switching
 	var/obj/item/vehicle/vehicle

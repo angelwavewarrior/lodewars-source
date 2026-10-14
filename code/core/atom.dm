@@ -59,7 +59,7 @@
 				O = locate() in T.contents - O
 			if(O && M.mode == "get" && M.CanGet(O))
 				O.get()
-			else if(P && M.mode == "attack" && P != M && !(P in M.children) && get_dist(P, M) <= 1)
+			else if(P && M.mode == "attack" && P != M && get_dist(P, M) <= 1)
 				P:attack()
 			else if(M.activeItem)
 				if(istype(M.activeItem, /obj/item/equippable/weapon))

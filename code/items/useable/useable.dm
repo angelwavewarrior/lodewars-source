@@ -59,12 +59,6 @@
 		wait = delay * 3
 	if(get_dist(M, target) <= range)
 		reach = 1
-	else
-		if(M.children)
-			for(var/mob/C in M.children)
-				if(get_dist(C, target) <= range)
-					reach = 1
-					break
 	if(M.act_delay > world.time || !reach || powerDrain > M.energy)
 		return 0
 	else

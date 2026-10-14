@@ -292,7 +292,7 @@
 	else
 		players << "The round is won by the victorious [winner.title]!"
 	for(var/mob/M in world)
-		if(!M.master && !M.client)
+		if(!M.client)
 			del(M)
 	for(var/team/T in teams)
 		if(T.members.len)

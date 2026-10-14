@@ -33,14 +33,12 @@
 	icon_state = "grenade"
 
 /obj/bullet/Bump(O as mob|obj|turf|area)
-	var/mob/B
 	var/turf/T
-	B = O
 	T = GetTurf(O)
 	if(istype(GetTurf(O), /turf/water) && !T.Bridged() && rand(0, 2))
 		loc = O:loc
 		return
-	if(!(O == owner || ismob(B) && B.master == owner))
+	if(O != owner)
 		if(istype(O, /obj/bullet))
 			loc = O:loc
 		else

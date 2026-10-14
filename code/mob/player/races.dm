@@ -1,8 +1,6 @@
 /mob/player/bolo
 	icon = 'bolo_new.dmi'
 	icon_state = "run"
-	var/list/water = list()
-	baseIcon = "bolo"
 	race = "Bolo"
 	strength = 18
 	carry = 18
@@ -16,7 +14,6 @@
 	max_health = 80
 	size = 2
 	statOrder = list("attack", "strength", "defense", "digging", "speed", "dexterity", "intelligence", "aim")
-	children = list()
 
 /mob/player/gwarth
 	icon = 'gwarth.dmi'

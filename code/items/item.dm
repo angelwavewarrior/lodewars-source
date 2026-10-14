@@ -53,12 +53,6 @@
 		density = 0
 		if(CanReach(M, src))
 			reach = 1
-		else
-			if(M.children)
-				for(var/mob/C in M.children)
-					if(CanReach(C, src))
-						reach = 1
-						break
 		if(!istype(src, /obj/item/vehicle/raft))
 			if(loc && M.loc && (loc.type == /turf/water || M.loc.type == /turf/water) && loc.type != M.loc.type)
 				reach = 0
