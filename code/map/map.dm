@@ -425,8 +425,8 @@
 	for(var/obj/item/I in world)
 		var B, P
 		if(I && I.loc && (I.buyer || I.buyers) && !istype(I, /obj/item/ore))
-			// Ammo value is per pack of amt rounds.
-			var/V = I.value
+			// value is per item, and per pack of amt rounds for ammo.
+			var/V = I.value * I.quantity
 			if(istype(I, /obj/item/ammo))
 				V = I.value * I.quantity / I:amt
 			// A merged stack refunds each buyer's share separately.
