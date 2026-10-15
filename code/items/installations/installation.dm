@@ -47,6 +47,7 @@
 			I.Plant(M)
 			TakeBuyerCounts(1)
 			quantity--
+			M.encumberance -= CalcWeight(1)
 			UpdateQuantity()
 			. = I
 		M.HUDUpdate("carry")

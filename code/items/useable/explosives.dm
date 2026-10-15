@@ -72,6 +72,7 @@
 			P.Arm()
 			TakeBuyerCounts(1)
 			quantity--
+			M.encumberance -= CalcWeight(1)
 			UpdateQuantity()
 			M.HUDUpdate("carry")
 		fuse = initial(fuse)
