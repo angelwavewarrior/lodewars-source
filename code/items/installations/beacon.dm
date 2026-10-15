@@ -38,15 +38,16 @@
 	signals.Remove(src)
 	. = ..()
 
-/obj/item/useable/installation/beacon/UsedBy()
-	if(signal == "Homing beacon")
+/obj/item/useable/installation/beacon/UsedBy(mob/M)
+	if(signal == "Homing beacon" && M.team == team)
 		Input(input("Beacon signal:") as text)
 
 /obj/item/useable/installation/beacon/proc/Input(Text as text)
 	set name = "input"
 	set desc = "Input the description for the frequency broadcast by a homing beacon."
 	set src in view(1)
-	if(!istype(usr, /mob/player))
+	// Only the beacon's own team names it, so an enemy can't label it first.
+	if(!istype(usr, /mob/player) || usr:team != team)
 		return
 	if(length(Text) > 100)
 		Text = copytext(Text, 0, 101)
